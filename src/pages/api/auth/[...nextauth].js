@@ -1,6 +1,5 @@
 import NextAuth from "next-auth/next";
 import CredentialsProviders from "next-auth/providers/credentials";
-import AuthCredential from "../../../../lib/AuthCredential";
 
 export const authOption = {
   pages: {
@@ -14,15 +13,24 @@ export const authOption = {
       //   password: { label: "Password", type: "password" },
       // },
       async authorize(credentials, req) {
-        const auth = AuthCredential(credentials);
+        const res = await fetch("http://127.0.0.1:1337/api/auth/local", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            identifier: credentials.username,
+            password: credentials.password,
+          }),
+        });
+
+        const user = res.json();
         // const res = await axios.post("http://127.0.0.1:1337/api/auth/local", {
         //   identifier: credentials.username,
         //   password: credentials.password,
         // });
         // const { user } = res.data;
-
-        // return user;
-        return auth;
+        return user;
       },
     }),
   ],

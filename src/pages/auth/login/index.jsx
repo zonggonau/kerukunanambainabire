@@ -1,92 +1,82 @@
-import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import nookies from "nookies";
 
-const LoginPage = () => {
+export default function LoginPage() {
   const router = useRouter();
+
+  const [isValid, setIsValid] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setIsValid(false);
+    }, 5000);
+  });
+
   const [authState, setAuthState] = useState({
     username: "",
     password: "",
   });
-
-  console.log();
-
-  const [pageState, setPageState] = useState({
-    error: "",
-    processing: false,
-  });
-
-  const errorMessage = (error) => {
-    const errorMap = {
-      CredentialsSignin: "Invalid Usernama or Password !",
-    };
-
-    return errorMap[error] ?? "Unknown error occurred";
-  };
 
   const handleInputChange = (e) => {
     setAuthState((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
 
   const handleAuth = async () => {
-    // setPageState((old) => ({ ...old, processing: true, error: "" }));
-    signIn("credentials", {
-      ...authState,
-      redirect: false,
-    })
-      .then((response) => {
-        console.log(response);
-        if (response.ok) {
-          // autenticate user here
-          console.log(response);
-          router.push("/");
-        } else {
-          console.log(response);
-          setPageState((old) => ({
-            ...old,
-            processing: false,
-            error: response.error,
-          }));
-        }
-      })
-      .catch((error) => {
-        setPageState((old) => ({
-          ...old,
-          processing: false,
-          error: error.message ?? "Something went wrong! ",
-        }));
-      });
+    const req = await fetch(process.env.NEXT_PUBLIC_HOST + "/api/auth/local", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        identifier: authState.username,
+        password: authState.password,
+      }),
+    });
+
+    const { jwt, user } = await req.json();
+
+    if (jwt && user) {
+      nookies.set(null, "token", jwt);
+      nookies.set(null, "id", user.id);
+      nookies.set(null, "name", user.username);
+      nookies.set(null, "email", user.email);
+      router.replace("/user/profile");
+    } else {
+      setIsValid(true);
+    }
   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <a
-          href="#"
+        <Link
+          href="/"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
           <img
-            className="w-8 h-8 mr-2"
-            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+            className="w-32 h-32 mr-2"
+            src="http://kerukunanambainabire.com:1337/uploads/ikkan_1_bb2ae4ef37.png"
             alt="logo"
           />
-          Flowbite
-        </a>
+        </Link>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center">
               Sign in to your account
             </h1>
-            {pageState.error !== "" && (
+            {isValid ? (
               <div
                 className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                 role="alert"
               >
-                <span className="font-medium">
-                  {errorMessage(pageState.error)}
-                </span>
+                <span className="font-medium">Email atau Password Salah !</span>
               </div>
+            ) : (
+              ""
             )}
+
             <div className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
@@ -152,27 +142,38 @@ const LoginPage = () => {
                 </a>
               </div>
               <button
-                disabled={pageState.processing}
                 onClick={handleAuth}
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="w-full border text-gray-400 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Sign in
               </button>
-              {/* <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
-                <a
-                  href="#"
+                <Link
+                  href="/auth/register"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Sign up
-                </a>
-              </p> */}
+                </Link>
+              </p>
             </div>
           </div>
         </div>
       </div>
     </section>
   );
-};
+}
 
-export default LoginPage;
+export async function getServerSideProps(ctx) {
+  const cookies = nookies.get(ctx);
+  if (cookies.token) {
+    return {
+      redirect: {
+        destination: "/user/profile",
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+}

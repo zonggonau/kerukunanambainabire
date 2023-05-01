@@ -13,8 +13,7 @@ import {
 
 export default function Slug({ data }) {
   const { asPath } = useRouter();
-  console.log(data);
-  console.log(process.env.BASEURL_API);
+
   const judul = data[0].attributes.judul;
   const konten = data[0].attributes.konten;
   const descriptions = data[0].attributes.descriptions;
@@ -86,7 +85,7 @@ export default function Slug({ data }) {
             <div className="flex space-x-8 items-center">
               <div>
                 <FacebookShareButton
-                  url={process.env.BASEURL_API + asPath}
+                  url={process.env.NEXT_PUBLIC_HOST + asPath}
                   quote={
                     "next-share is a social share buttons for your next React apps."
                   }
@@ -97,7 +96,7 @@ export default function Slug({ data }) {
               </div>
               <div>
                 <WhatsappShareButton
-                  url={process.env.BASEURL_API + asPath}
+                  url={process.env.NEXT_PUBLIC_HOST + asPath}
                   quote={
                     "next-share is a social share buttons for your next React apps."
                   }
@@ -108,7 +107,7 @@ export default function Slug({ data }) {
               </div>
               <div>
                 <TwitterShareButton
-                  url={`http://localhost:3000${asPath}`}
+                  url={process.env.NEXT_PUBLIC_HOST + asPath}
                   quote={
                     "next-share is a social share buttons for your next React apps."
                   }

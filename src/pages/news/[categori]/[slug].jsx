@@ -85,7 +85,7 @@ export default function Slug({ data }) {
             <div className="flex space-x-8 items-center">
               <div>
                 <FacebookShareButton
-                  url={process.env.NEXT_PUBLIC_HOST + asPath}
+                  url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
                   quote={
                     "next-share is a social share buttons for your next React apps."
                   }
@@ -96,7 +96,7 @@ export default function Slug({ data }) {
               </div>
               <div>
                 <WhatsappShareButton
-                  url={process.env.NEXT_PUBLIC_HOST + asPath}
+                  url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
                   quote={
                     "next-share is a social share buttons for your next React apps."
                   }
@@ -107,7 +107,7 @@ export default function Slug({ data }) {
               </div>
               <div>
                 <TwitterShareButton
-                  url={process.env.NEXT_PUBLIC_HOST + asPath}
+                  url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
                   quote={
                     "next-share is a social share buttons for your next React apps."
                   }

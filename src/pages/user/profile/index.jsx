@@ -66,51 +66,46 @@ export default function Profile({
   async function handleSave(e) {
     e.preventDefault();
 
-    const req = await fetch(
-      process.env.NEXT_PUBLIC_HOST + "/api/anggotas?populate=*",
-      {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
-          "Content-Type": "application/json",
+    const req = await fetch(process.env.NEXT_PUBLIC_HOST + "/api/anggotas", {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data: {
+          nama: anggota.nama,
+          tempat_lahir: anggota.tempat_lahir,
+          tanggal_lahir: anggota.tanggal_lahir,
+          jenis_kelamin: anggota.jenis_kelamin,
+          alamat: anggota.alamat,
+          rt_rw: anggota.rt_rw,
+          nik: anggota.nik,
+          nkk: anggota.nkk,
+          email: anggota.email,
+          jabatan: anggota.jabatan,
+          status_perkawinan: anggota.status_perkawinan,
+          kelurahan: anggota.kelurahan,
+          agama: anggota.agama,
+          photo_profile: anggota.photo_profile,
+          distrik: anggota.distrik,
+          pendidikan: anggota.pendidikan,
+          keret: anggota.keret,
+          pekerjaan_sekarang: anggota.pekerjaan_sekarang,
+          jabatan_kerukunan: anggota.jabatan_kerukunan,
+          users_permissions_user: user.id,
+          phone: anggota.phone,
+          golongan_darah: anggota.golongan_darah,
+          desc: anggota.desc,
         },
-        body: JSON.stringify({
-          data: {
-            nama: anggota.nama,
-            tempat_lahir: anggota.tempat_lahir,
-            tanggal_lahir: anggota.tanggal_lahir,
-            jenis_kelamin: anggota.jenis_kelamin,
-            alamat: anggota.alamat,
-            rt_rw: anggota.rt_rw,
-            nik: anggota.nik,
-            nkk: anggota.nkk,
-            email: anggota.email,
-            jabatan: [anggota.jabatan],
-            status_perkawinan: anggota.status_perkawinan,
-            kelurahan: anggota.kelurahan,
-            agama: anggota.agama,
-            photo_profile: anggota.photo_profile,
-            distrik: anggota.distrik,
-            pendidikan: anggota.pendidikan,
-            keret: anggota.keret,
-            pekerjaan_sekarang: anggota.pekerjaan_sekarang,
-            jabatan_kerukunan: anggota.jabatan_kerukunan,
-            users_permissions_user: user.id,
-            phone: anggota.phone,
-            golongan_darah: anggota.golongan_darah,
-            desc: anggota.desc,
-          },
-        }),
-      }
-    );
+      }),
+    });
 
-    const { data, error } = await req.json();
-    if (data.lenght > 0) {
-      setSuccess(true);
-      setIsView(false);
-    }
-    setSuccess(true);
-    setIsView(true);
+    const res = await req.json();
+    console.log(res);
+    // console.log(anggota);
+    // setSuccess(true);
+    // setIsView(true);
   }
 
   async function handleUpdate(e) {

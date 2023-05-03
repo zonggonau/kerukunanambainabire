@@ -1,5 +1,5 @@
+import nookies from "nookies";
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import Hero from "../../components/hero";
 import Blog from "../../components/publikasi";
@@ -27,25 +27,27 @@ export default function Home(data) {
   );
 }
 
-export async function getStaticProps() {
-  const qs = require("qs");
-  const query = qs.stringify(
-    {
-      populate: "*",
-    },
-    {
-      encodeValuesOnly: true,
-    }
-  );
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_HOST + "/api/hero-component?" + query,
+export async function getStaticProps(ctx) {
+  const cookie = nookies.get(ctx);
+
+  if (cookie.token) {
+    return {
+      redirect: {
+        destination: "/user/profile",
+      },
+    };
+  }
+
+  const req = await fetch(
+    process.env.NEXT_PUBLIC_HOST + "/api/hero-component?populate=*",
     {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
       },
     }
   );
-  const { data } = await res.json();
+  const { data } = await req.json();
+
   return {
     props: data,
   };

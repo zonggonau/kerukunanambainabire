@@ -164,7 +164,7 @@ export default function LoginPage() {
   );
 }
 
-export async function getServerSideProps(ctx) {
+export async function getStaticProps(ctx) {
   const cookies = nookies.get(ctx);
   if (cookies.token) {
     return {

@@ -24,6 +24,11 @@ const viewState = atom({
   default: true,
 });
 
+const codeDistrikState = atom({
+  key: "codeDistrikState",
+  default: "",
+});
+
 const anggotaState = atom({
   key: "anggotaState",
   default: {
@@ -93,4 +98,5 @@ export {
   riwayatPendidikanState,
   successState,
   errorState,
+  codeDistrikState,
 };

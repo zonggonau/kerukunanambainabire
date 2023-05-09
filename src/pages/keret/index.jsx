@@ -2,7 +2,6 @@ import Head from "next/head";
 import Image from "next/image";
 
 export default function Keret({ data }) {
-  console.log(data);
   return (
     <>
       <Head>

@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import parse from "html-react-parser";
 import Seo from "../../../../components/seo";
@@ -25,6 +26,7 @@ export default function Slug({ data }) {
   const thumnailName =
     data[0].attributes.featured.data.attributes.formats.thumbnail.name;
   const seoImage = process.env.NEXT_PUBLIC_HOST + thumnailUrl;
+
   return (
     <>
       <Seo judul={judul} descriptions={descriptions} image={seoImage} />
@@ -86,9 +88,7 @@ export default function Slug({ data }) {
               <div>
                 <FacebookShareButton
                   url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
-                  quote={
-                    "next-share is a social share buttons for your next React apps."
-                  }
+                  quote={judul}
                   hashtag={"#nextshare"}
                 >
                   <FacebookIcon size={50} round />
@@ -97,9 +97,7 @@ export default function Slug({ data }) {
               <div>
                 <WhatsappShareButton
                   url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
-                  quote={
-                    "next-share is a social share buttons for your next React apps."
-                  }
+                  quote={judul}
                   hashtag={"#nextshare"}
                 >
                   <WhatsappIcon size={50} round />
@@ -108,9 +106,7 @@ export default function Slug({ data }) {
               <div>
                 <TwitterShareButton
                   url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
-                  quote={
-                    "next-share is a social share buttons for your next React apps."
-                  }
+                  quote={judul}
                   hashtag={"#nextshare"}
                 >
                   <TwitterIcon size={50} round />

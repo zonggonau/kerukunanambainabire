@@ -1,3 +1,4 @@
+import useSWR from "swr";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
 import { anggotaState, viewState } from "../../../../store";
@@ -9,47 +10,51 @@ import ViewProfile from "../../../../components/profile/viewprofile";
 import EditProfile from "../../../../components/profile/editprofile";
 import { getDistrik, getJabatan, getKerukunan } from "../../../../lib/API";
 
-export default function Profile({
-  user,
-  profile,
-  jabatan,
-  kerukunan,
-  distrik,
-}) {
+const fetcher = ([url, token]) =>
+  fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    return res.json();
+  });
+
+export default function Profile({ user, jabatan, kerukunan, distrik }) {
   const router = useRouter();
   const [isView, setIsView] = useRecoilState(viewState);
   const [anggota, setAnggota] = useRecoilState(anggotaState);
+  const [localView, setLocalView] = useState(false);
+  const [image, setImage] = useState(null);
+  const [createObjectUrl, setCreateObjectUrl] = useState(null);
+  const [imgProfile, setImgProfile] = useState(
+    "/uploads/Untitled_5f2cc72ef0.png"
+  );
+
+  let url =
+    process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?populate=*";
+
+  let token = process.env.NEXT_PUBLIC_TOKEN;
+
+  useEffect(() => {
+    userPhoto();
+  });
+
+  const {
+    data: profile,
+    error,
+    isLoading,
+  } = useSWR([url, token], fetcher, {
+    refreshInterval: 1000,
+  });
+
+  if (error) return <div>Field to load Profile</div>;
+  if (isLoading) return <div>Loading...</div>;
 
   function handleEdit() {
     setIsView(!isView);
     var data = profile.anggota == null ? { anggota } : profile.anggota;
     setAnggota(data);
   }
-
-  const [imgProfile, setImgProfile] = useState(
-    "/uploads/Untitled_5f2cc72ef0.png"
-  );
-
-  async function getProfileImage() {
-    if (profile != null) {
-      const req = await fetch(
-        process.env.NEXT_PUBLIC_HOST +
-          "/api/upload/files/" +
-          profile.photo_profile.id_image,
-        {
-          headers: {
-            Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
-          },
-        }
-      );
-      const res = await req.json();
-      const ImgProfile = await res.formats.thumbnail.url;
-      setImgProfile(ImgProfile);
-    }
-  }
-  const [localView, setLocalView] = useState(false);
-  const [image, setImage] = useState(null);
-  const [createObjectUrl, setCreateObjectUrl] = useState(null);
 
   function handleImage(e) {
     setLocalView(true);
@@ -102,9 +107,37 @@ export default function Profile({
     router.replace("/");
   }
 
-  useEffect(() => {
-    getProfileImage();
-  }, [profile]);
+  async function getProfileImage(idPic) {
+    if (idPic != null) {
+      const req = await fetch(
+        process.env.NEXT_PUBLIC_HOST + "/api/upload/files/" + idPic,
+        {
+          headers: {
+            Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+          },
+        }
+      );
+      const res = await req.json();
+      const ImgProfile = await res.formats.thumbnail.url;
+      setImgProfile(ImgProfile);
+    }
+  }
+
+  async function userPhoto() {
+    let req = await fetch(
+      process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?populate=*",
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+        },
+      }
+    );
+
+    let data = await req.json();
+    let id_pic = await data.photo_profile.id_image;
+    console.log(id_pic);
+    getProfileImage(id_pic);
+  }
 
   return (
     <>
@@ -297,25 +330,11 @@ export async function getServerSideProps(ctx) {
     };
   }
 
-  async function getProfile() {
-    const req = await fetch(
-      process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?populate=*",
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
-        },
-      }
-    );
-    const res = await req.json({ revalidated: true , now:Date.now() });
-    return res;
-  }
-
   return {
     props: {
       distrik: await getDistrik(),
       jabatan: await getJabatan(),
       kerukunan: await getKerukunan(),
-      profile: await getProfile(),
       user,
     },
   };

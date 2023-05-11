@@ -10,15 +10,6 @@ const fetcher = ([url, token]) =>
   });
 
 export default function Viewdata({ user }) {
-  // function handleEdit() {
-  //   setIsView(false);
-  //   if (profile.anggota != null) {
-  //     getKelurahan(profile.anggota.distrik);
-  //   }
-  //   var data = profile.anggota == null ? { anggota } : profile.anggota;
-  //   setAnggota(data);
-  // }
-
   let url =
     process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?populate=*";
   let token = process.env.NEXT_PUBLIC_TOKEN;

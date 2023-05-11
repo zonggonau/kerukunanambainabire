@@ -135,7 +135,6 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
 
     let data = await req.json();
     let id_pic = await data.photo_profile.id_image;
-    console.log(id_pic);
     getProfileImage(id_pic);
   }
 

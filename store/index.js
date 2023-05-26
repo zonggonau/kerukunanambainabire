@@ -75,6 +75,19 @@ const riwayatPendidikanState = atom({
     finish_date: "",
     desc: "",
     users_permissions_user: "",
+    kota: "",
+  },
+});
+
+const PendidikanNonFormalState = atom({
+  key: "PendidikanNonFormalState",
+  default: {
+    nama: "",
+    star_date: "",
+    finish_date: "",
+    desc: "",
+    users_permissions_user: "",
+    penyelenggara: "",
   },
 });
 
@@ -99,4 +112,5 @@ export {
   successState,
   errorState,
   codeDistrikState,
+  PendidikanNonFormalState,
 };

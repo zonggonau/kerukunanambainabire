@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { registerState } from "../../../../store";
+import { registerState, successState } from "../../../../store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function Register() {
   const router = useRouter();
   const [register, setRegister] = useRecoilState(registerState);
+  const [success, setSuccess] = useRecoilState(successState);
   const handleChange = (e) => {
     setRegister((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
@@ -36,6 +37,7 @@ export default function Register() {
         // console.log("User profile", response.data.user);
         // console.log("User token", response.data.jwt);
         if (user && jwt) {
+          setSuccess(true);
           router.replace("/auth/login");
         }
       })

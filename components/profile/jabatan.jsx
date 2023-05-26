@@ -78,7 +78,9 @@ export default function Jabatan({ handleChange, jabatan, kerukunan }) {
           >
             <option value="">Jabatan Dalam Pekerjaan</option>
             {jabatan.map((item) => (
-              <option value={item.id}>{item.attributes.nama_jabatan}</option>
+              <option value={item.attributes.nama_jabatan}>
+                {item.attributes.nama_jabatan}
+              </option>
             ))}
           </select>
         </div>
@@ -93,7 +95,9 @@ export default function Jabatan({ handleChange, jabatan, kerukunan }) {
           >
             <option value="">Jabatan Dalam Kerukunan</option>
             {kerukunan.map((item) => (
-              <option value={item.id}>{item.attributes.jabatan}</option>
+              <option value={item.attributes.jabatan}>
+                {item.attributes.jabatan}
+              </option>
             ))}
           </select>
         </div>

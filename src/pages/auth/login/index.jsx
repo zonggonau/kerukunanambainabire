@@ -2,14 +2,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import nookies from "nookies";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { successState } from "../../../../store";
 
 export default function LoginPage() {
   const router = useRouter();
+
+  const [success, setSuccess] = useRecoilState(successState);
 
   const [isValid, setIsValid] = useState(false);
   useEffect(() => {
     setTimeout(() => {
       setIsValid(false);
+      setSuccess(false);
     }, 5000);
   });
 
@@ -72,6 +77,19 @@ export default function LoginPage() {
                 role="alert"
               >
                 <span className="font-medium">Email atau Password Salah !</span>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {success ? (
+              <div
+                className="p-4 mb-4 text-sm text-white rounded-lg bg-green-400 dark:bg-gray-800 dark:text-red-400"
+                role="alert"
+              >
+                <span className="font-medium">
+                  Register Berhasil, Silakan Login
+                </span>
               </div>
             ) : (
               ""

@@ -1,7 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { anggotaState } from "../../store";
 
-export default function About({ handleChange }) {
+export default function About({ handleChange, user }) {
   const anggota = useRecoilValue(anggotaState);
 
   return (

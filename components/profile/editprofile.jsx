@@ -2,7 +2,8 @@ import About from "./about";
 import Alamat from "./alamat";
 import Jabatan from "./jabatan";
 import Ktp from "./ktp";
-import RiwayatPendidikan from "./riwayatpendidikan";
+import PendidikanFormal from "./pendidikanformal";
+import PendidikanNonFormal from "./pendidikannonformal";
 import RiwayatPekerjaan from "./riwayatpekerjaan";
 import {
   anggotaState,
@@ -125,8 +126,6 @@ export default function Editdata({
     }
   }
 
-
-
   return (
     <>
       <div className="w-full md:w-9/12 mx-2 h-64">
@@ -163,7 +162,8 @@ export default function Editdata({
           </form>
           <hr />
 
-          <RiwayatPendidikan user={user} />
+          <PendidikanFormal user={user} />
+          <PendidikanNonFormal user={user} />
           <RiwayatPekerjaan user={user} />
         </div>
 

@@ -5,20 +5,20 @@ import { useEffect, useState } from "react";
 export default function Alamat({ handleChange, distrik }) {
   const anggota = useRecoilValue(anggotaState);
   const [kelurahan, setKelurahan] = useState([]);
-  useEffect(() => {
-    const getKelurahan = async () => {
-      // get the data from the api
-      const req = await fetch(
-        `http://www.emsifa.com/api-wilayah-indonesia/api/villages/${anggota.distrik}.json`
-      );
-      // convert the data to json
-      const res = await req.json();
 
-      // set state with the result
-      setKelurahan(res);
-    };
-    getKelurahan().catch(console.error);
-  }, [kelurahan]);
+  const getKelurahan = async () => {
+    // get the data from the api
+    const req = await fetch(
+      `http://www.emsifa.com/api-wilayah-indonesia/api/villages/${anggota.distrik}.json`
+    );
+    // convert the data to json
+    const res = await req.json();
+
+    // set state with the result
+    setKelurahan(res);
+  };
+
+  getKelurahan().catch(console.error);
 
   return (
     <>

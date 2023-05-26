@@ -5,7 +5,7 @@ import { anggotaState, viewState } from "../../../../store";
 import nookies, { destroyCookie } from "nookies";
 import { useRouter } from "next/navigation";
 import Header from "../../../../components/profile/header";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
 import ViewProfile from "../../../../components/profile/viewprofile";
 import EditProfile from "../../../../components/profile/editprofile";
 import { getDistrik, getJabatan, getKerukunan } from "../../../../lib/API";
@@ -134,8 +134,10 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
     );
 
     let data = await req.json();
-    let id_pic = await data.photo_profile.id_image;
-    getProfileImage(id_pic);
+    if (data.photo_profile != null) {
+      let id_pic = await data.photo_profile.id_image;
+      getProfileImage(id_pic);
+    }
   }
 
   return (
@@ -190,7 +192,9 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
                   {profile.anggota == null ? user.name : profile.anggota.nama}
                 </h1>
                 <h3 className="text-gray-600 font-lg text-semibold leading-6">
-                  {profile.anggota == null ? "" : profile.anggota.jabatan}
+                  {profile.anggota == null
+                    ? ""
+                    : profile.anggota.jabatan_kerukunan}
                 </h3>
                 <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">
                   {profile.anggota == null ? "" : profile.anggota.desc}

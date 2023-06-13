@@ -14,7 +14,22 @@ const fetcher = ([url, token]) =>
 export default function RiwayatPekerjaan({ user }) {
   const [rpekerjaan, setRPekerjaan] = useRecoilState(riwayatPekerjaanState);
 
-  let url = process.env.NEXT_PUBLIC_HOST + "/api/riwayat-pekerjaans/";
+  const qs = require("qs");
+  const query = qs.stringify(
+    {
+      populate: {
+        riwayat_pekerjaans: {
+          sort: ["star_date:DESC"],
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true, // prettify URL
+    }
+  );
+
+  let url =
+    process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?" + query;
   let token = process.env.NEXT_PUBLIC_TOKEN;
 
   const { data, error, isLoading } = useSWR([url, token], fetcher, {
@@ -36,7 +51,7 @@ export default function RiwayatPekerjaan({ user }) {
   async function handleSavePekerjaan(e) {
     e.preventDefault();
 
-    const req = await fetch(
+    await fetch(
       process.env.NEXT_PUBLIC_HOST +
         "/api/riwayat-pekerjaans?populate=users_permisions_user",
       {
@@ -47,18 +62,37 @@ export default function RiwayatPekerjaan({ user }) {
         },
         body: JSON.stringify({
           data: {
-            instansi: rpekerjaan.instansi,
+            nama: rpekerjaan.nama,
             star_date: formatDate(rpekerjaan.star_date),
             finish_date: formatDate(rpekerjaan.finish_date),
             users_permissions_user: [user.id],
             desc: rpekerjaan.desc,
+            kota: rpekerjaan.kota,
           },
         }),
       }
     );
-
-    const res = await req.json();
+    setRPekerjaan({
+      nama: "",
+      star_date: "",
+      finish_date: "",
+      desc: "",
+      kota: "",
+    });
   }
+
+  const delItem = async (id) => {
+    await fetch(
+      process.env.NEXT_PUBLIC_HOST + "/api/riwayat-pekerjaans/" + id,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -81,20 +115,46 @@ export default function RiwayatPekerjaan({ user }) {
                 />
               </svg>
             </span>
-            <span className="tracking-wide">Riwayat Pekerjaan</span>
+            <span className="tracking-wide">Pengalaman Bekerja</span>
           </div>
           <form onSubmit={handleSavePekerjaan} className="space-y-5">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <input
                   onChange={handleChangePekerjaan}
-                  name="instansi"
+                  value={rpekerjaan.nama}
+                  required
+                  name="nama"
                   className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                  placeholder="Instansi Tempat Bekerja"
+                  placeholder="Instansi/Perusahan Tempat Bekerja"
                   type="text"
                   id="pekerjaan"
                 />
               </div>
+              <div>
+                <input
+                  onChange={handleChangePekerjaan}
+                  value={rpekerjaan.kota}
+                  name="kota"
+                  required
+                  className="w-full rounded-lg border-gray-200 p-3 text-sm"
+                  placeholder="Di Kota"
+                  type="text"
+                  id="kota"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
+              <textarea
+                value={rpekerjaan.desc}
+                onChange={handleChangePekerjaan}
+                require
+                name="desc"
+                className="w-full rounded-lg border-gray-200 p-3 text-sm"
+                placeholder="Tanggung jawab pekerjaan"
+                rows="2"
+                id="message"
+              ></textarea>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div>
@@ -104,7 +164,9 @@ export default function RiwayatPekerjaan({ user }) {
                   </div>
                   <input
                     onChange={handleChangePekerjaan}
+                    value={rpekerjaan.star_date}
                     name="star_date"
+                    required
                     type="date"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-16 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
@@ -117,6 +179,8 @@ export default function RiwayatPekerjaan({ user }) {
                   </div>
                   <input
                     onChange={handleChangePekerjaan}
+                    value={rpekerjaan.finish_date}
+                    required
                     name="finish_date"
                     type="date"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-16 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -160,13 +224,24 @@ export default function RiwayatPekerjaan({ user }) {
             <span className="tracking-wide">Experience</span>
           </div>
           <ul className="list-inside space-y-2">
-            {data.data.map((item, index) => (
-              <li key={index}>
-                <div className="text-teal-600">{item.attributes.instansi}</div>
-                <div className="text-gray-500 text-xs">
-                  {item.attributes.star_date} {item.attributes.finish_date}
+            {data.riwayat_pekerjaans.map((item, index) => (
+              <div className="flex">
+                <div>
+                  <li key={index}>
+                    <div className="text-teal-600">{item.nama}</div>
+                    <div className="text-gray-500 text-xs space-x-5">
+                      <span className="text-black">{item.kota},</span>{" "}
+                      {item.star_date} {item.finish_date}
+                      <span
+                        className="cursor-pointer bg-red-500 text-white  rounded-md pl-2 pr-2"
+                        onClick={() => delItem(item.id)}
+                      >
+                        Hapus
+                      </span>
+                    </div>
+                  </li>
                 </div>
-              </li>
+              </div>
             ))}
           </ul>
         </div>

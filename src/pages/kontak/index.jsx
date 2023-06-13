@@ -1,21 +1,21 @@
 import Head from "next/head";
+import nookies from "nookies";
 
-export default function Kontak() {
+export default function Kontak({ data }) {
   return (
     <>
       <Head>
-        <title>Kontak</title>
+        <title> {data.attributes.title}</title>
       </Head>
       <main>
         <section className="py-10 bg-gray-100 sm:py-16 lg:py-24">
           <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl font-bold leading-tight text-gray-900 sm:text-4xl lg:text-5xl">
-                Contact us
+                {data.attributes.title}
               </h2>
               <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed text-gray-500">
-                Amet minim mollit non deserunt ullamco est sit aliqua dolor do
-                amet sint. Velit officia consequat duis.
+                {data.attributes.desc}
               </p>
             </div>
 
@@ -38,11 +38,11 @@ export default function Kontak() {
                       />
                     </svg>
                     <p className="mt-6 text-lg font-medium text-gray-900">
-                      +1-316-555-0116
+                      {data.attributes.phone}
                     </p>
-                    <p className="mt-1 text-lg font-medium text-gray-900">
+                    {/* <p className="mt-1 text-lg font-medium text-gray-900">
                       +1-446-526-0117
-                    </p>
+                    </p> */}
                   </div>
                 </div>
 
@@ -63,11 +63,11 @@ export default function Kontak() {
                       />
                     </svg>
                     <p className="mt-6 text-lg font-medium text-gray-900">
-                      contact@example.com
+                      {data.attributes.email}
                     </p>
-                    <p className="mt-1 text-lg font-medium text-gray-900">
+                    {/* <p className="mt-1 text-lg font-medium text-gray-900">
                       hr@example.com
-                    </p>
+                    </p> */}
                   </div>
                 </div>
 
@@ -94,7 +94,7 @@ export default function Kontak() {
                       />
                     </svg>
                     <p className="mt-6 text-lg font-medium leading-relaxed text-gray-900">
-                      8502 Preston Rd. Ingle, Maine 98380, USA
+                      {data.attributes.alamat}
                     </p>
                   </div>
                 </div>
@@ -103,7 +103,7 @@ export default function Kontak() {
               <div className="mt-6 overflow-hidden bg-white rounded-xl">
                 <div className="px-6 py-12 sm:p-12">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d995.7381012154125!2d135.5049167!3d-3.3618056!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zM8KwMjEnNDIuNSJTIDEzNcKwMzAnMTcuNyJF!5e0!3m2!1sid!2sid!4v1679282986265!5m2!1sid!2sid"
+                    src={data.attributes.map}
                     width="930"
                     height="550"
                     style={{ border: 0 }}
@@ -119,4 +119,30 @@ export default function Kontak() {
       </main>
     </>
   );
+}
+
+export async function getStaticProps(ctx) {
+  const cookie = nookies.get(ctx);
+
+  if (cookie.token) {
+    return {
+      redirect: {
+        destination: "/user/profile",
+      },
+    };
+  }
+
+  const req = await fetch(
+    process.env.NEXT_PUBLIC_HOST + "/api/kontak?populate=*",
+    {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
+      },
+    }
+  );
+  const { data } = await req.json();
+
+  return {
+    props: { data },
+  };
 }

@@ -1,13 +1,14 @@
 import useSWR from "swr";
 import Image from "next/image";
 import { useRecoilState } from "recoil";
-import { anggotaState, viewState } from "../../../../store";
+import { anggotaState, userState, viewState } from "../../../../store";
 import nookies, { destroyCookie } from "nookies";
 import { useRouter } from "next/navigation";
 import Header from "../../../../components/profile/header";
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import ViewProfile from "../../../../components/profile/viewprofile";
 import EditProfile from "../../../../components/profile/editprofile";
+import Link from "next/link";
 import { getDistrik, getJabatan, getKerukunan } from "../../../../lib/API";
 
 const fetcher = ([url, token]) =>
@@ -20,6 +21,7 @@ const fetcher = ([url, token]) =>
   });
 
 export default function Profile({ user, jabatan, kerukunan, distrik }) {
+  const [users, setUsers] = useRecoilState(userState);
   const router = useRouter();
   const [isView, setIsView] = useRecoilState(viewState);
   const [anggota, setAnggota] = useRecoilState(anggotaState);
@@ -30,14 +32,25 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
     "/uploads/Untitled_5f2cc72ef0.png"
   );
 
+  const qs = require("qs");
+  const query = qs.stringify(
+    {
+      populate: "*",
+    },
+    {
+      encodeValuesOnly: true, // prettify URL
+    }
+  );
+
   let url =
-    process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?populate=*";
+    process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?" + query;
 
   let token = process.env.NEXT_PUBLIC_TOKEN;
 
   useEffect(() => {
     userPhoto();
-  });
+    setUsers(user);
+  }, [users]);
 
   const {
     data: profile,
@@ -48,7 +61,15 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
   });
 
   if (error) return <div>Field to load Profile</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="text-center">
+        <div className="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    );
 
   function handleEdit() {
     setIsView(!isView);
@@ -104,6 +125,7 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
     destroyCookie(null, "id");
     destroyCookie(null, "name");
     destroyCookie(null, "email");
+    setUsers({});
     router.replace("/");
   }
 
@@ -125,7 +147,10 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
 
   async function userPhoto() {
     let req = await fetch(
-      process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?populate=*",
+      process.env.NEXT_PUBLIC_HOST +
+        "/api/users/" +
+        user.id +
+        "?populate=photo_profile",
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
@@ -201,7 +226,9 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
                 </p>
                 <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                   <li className="flex items-center py-3">
-                    <span>Status</span>
+                    <Link href={`/user/profile/${user.id}`} target="_blank">
+                      Download
+                    </Link>
                     <span className="ml-auto">
                       {isView ? (
                         <button

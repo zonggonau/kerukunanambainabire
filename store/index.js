@@ -99,6 +99,18 @@ const riwayatPekerjaanState = atom({
     finish_date: "",
     desc: "",
     users_permissions_user: "",
+    kota: "",
+  },
+});
+
+const penghargaanState = atom({
+  key: "penghargaanState",
+  default: {
+    nama: "",
+    pemberi: "",
+    tgl_terima: "",
+    desc: "",
+    users_permissions_user: "",
   },
 });
 
@@ -113,4 +125,5 @@ export {
   errorState,
   codeDistrikState,
   PendidikanNonFormalState,
+  penghargaanState,
 };

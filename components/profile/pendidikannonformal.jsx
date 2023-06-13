@@ -16,7 +16,22 @@ export default function PendidikanNonFormal({ user }) {
     PendidikanNonFormalState
   );
 
-  let url = process.env.NEXT_PUBLIC_HOST + "/api/pendidikannonformals/";
+  const qs = require("qs");
+  const query = qs.stringify(
+    {
+      populate: {
+        pendidikannonformals: {
+          sort: ["star_date:DESC"],
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true, // prettify URL
+    }
+  );
+
+  let url =
+    process.env.NEXT_PUBLIC_HOST + "/api/users/" + user.id + "?" + query;
   let token = process.env.NEXT_PUBLIC_TOKEN;
 
   const { data, error, isLoading } = useSWR([url, token], fetcher, {
@@ -37,7 +52,7 @@ export default function PendidikanNonFormal({ user }) {
 
   async function handleSavePendidikan(e) {
     e.preventDefault();
-    const req = await fetch(
+    await fetch(
       process.env.NEXT_PUBLIC_HOST +
         "/api/pendidikannonformals?populate=users_permisions_user",
       {
@@ -53,14 +68,32 @@ export default function PendidikanNonFormal({ user }) {
             finish_date: formatDate(rpendidikan.finish_date),
             users_permissions_user: [user.id],
             desc: rpendidikan.desc,
-            penyelenggara: rpendidikan.penyelenggara,
+            kota: rpendidikan.kota,
           },
         }),
       }
     );
-
-    const res = await req.json();
+    setRPendidikan({
+      nama: "",
+      desc: "",
+      kota: "",
+      star_date: "",
+      finish_date: "",
+    });
   }
+
+  const delItem = async (id) => {
+    await fetch(
+      process.env.NEXT_PUBLIC_HOST + "/api/pendidikannonformals/" + id,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+  };
 
   return (
     <>
@@ -90,9 +123,11 @@ export default function PendidikanNonFormal({ user }) {
               <div>
                 <input
                   onChange={handleChangePendidikan}
+                  value={rpendidikan.nama}
                   name="nama"
+                  required
                   className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                  placeholder="Nama Pendidikan"
+                  placeholder="Instansi Penyelenggara"
                   type="text"
                   id="nama"
                 />
@@ -100,15 +135,28 @@ export default function PendidikanNonFormal({ user }) {
               <div>
                 <input
                   onChange={handleChangePendidikan}
-                  name="penyelenggara"
+                  name="kota"
+                  value={rpendidikan.kota}
+                  required
                   className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                  placeholder="Penyelenggara"
+                  placeholder="kota"
                   type="text"
                   id="kota"
                 />
               </div>
             </div>
-
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
+              <textarea
+                value={rpendidikan.desc}
+                onChange={handleChangePendidikan}
+                require
+                name="desc"
+                className="w-full rounded-lg border-gray-200 p-3 text-sm"
+                placeholder="Deskripsi Pelatihan"
+                rows="2"
+                id="message"
+              ></textarea>
+            </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div>
                 <div className="relative max-w-sm">
@@ -117,6 +165,8 @@ export default function PendidikanNonFormal({ user }) {
                   </div>
                   <input
                     onChange={handleChangePendidikan}
+                    value={rpendidikan.star_date}
+                    required
                     name="star_date"
                     type="date"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-16 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -132,6 +182,8 @@ export default function PendidikanNonFormal({ user }) {
                   <input
                     onChange={handleChangePendidikan}
                     name="finish_date"
+                    value={rpendidikan.finish_date}
+                    required
                     type="date"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-16 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
@@ -175,13 +227,24 @@ export default function PendidikanNonFormal({ user }) {
             <span className="tracking-wide">Pendidikan Non Formal</span>
           </div>
           <ul className="list-inside space-y-2">
-            {data.data.map((item, index) => (
-              <li key={index}>
-                <div className="text-teal-600">{item.attributes.nama}</div>
-                <div className="text-gray-500 text-xs">
-                  {item.attributes.star_date} {item.attributes.finish_date}
+            {data.pendidikannonformals.map((item, index) => (
+              <div className="flex">
+                <div>
+                  <li key={index}>
+                    <div className="text-teal-600">{item.nama}</div>
+                    <div className="text-gray-500 text-xs space-x-5">
+                      <span className="text-black">{item.kota},</span>{" "}
+                      {item.star_date} {item.finish_date}
+                      <span
+                        className="cursor-pointer bg-red-500 text-white  rounded-md pl-2 pr-2"
+                        onClick={() => delItem(item.id)}
+                      >
+                        Hapus
+                      </span>
+                    </div>
+                  </li>
                 </div>
-              </li>
+              </div>
             ))}
           </ul>
         </div>

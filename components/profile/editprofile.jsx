@@ -13,6 +13,7 @@ import {
 } from "../../store";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
+import Penghargaan from "./penghargaan";
 
 export default function Editdata({
   user,
@@ -165,6 +166,7 @@ export default function Editdata({
           <PendidikanFormal user={user} />
           <PendidikanNonFormal user={user} />
           <RiwayatPekerjaan user={user} />
+          <Penghargaan user={user} />
         </div>
 
         <div className="my-4"></div>

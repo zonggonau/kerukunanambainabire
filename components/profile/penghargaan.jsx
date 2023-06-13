@@ -1,6 +1,7 @@
 import useSWR from "swr";
+import React from "react";
 import { useRecoilState } from "recoil";
-import { riwayatPendidikanState } from "../../store";
+import { penghargaanState } from "../../store";
 
 const fetcher = ([url, token]) =>
   fetch(url, {
@@ -10,15 +11,15 @@ const fetcher = ([url, token]) =>
   }).then((res) => {
     return res.json();
   });
+export default function Penghargaan({ user }) {
+  const [penghargaan, setPenghargaan] = useRecoilState(penghargaanState);
 
-export default function PendidikanFormal({ user }) {
-  const [rpendidikan, setRPendidikan] = useRecoilState(riwayatPendidikanState);
   const qs = require("qs");
   const query = qs.stringify(
     {
       populate: {
-        riwayat_pendidikans: {
-          sort: ["star_date:DESC"],
+        penghargaans: {
+          sort: ["tgl_terima:DESC"],
         },
       },
     },
@@ -38,8 +39,8 @@ export default function PendidikanFormal({ user }) {
   if (error) return <div>Field to load</div>;
   if (isLoading) return <div>Loading...</div>;
 
-  const handleChangePendidikan = (e) => {
-    setRPendidikan((old) => ({ ...old, [e.target.name]: e.target.value }));
+  const handleChangePenghargaan = (e) => {
+    setPenghargaan((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
 
   function formatDate(date) {
@@ -47,11 +48,12 @@ export default function PendidikanFormal({ user }) {
     return newDate;
   }
 
-  async function handleSavePendidikan(e) {
+  async function handleSavePenghargaan(e) {
     e.preventDefault();
+
     await fetch(
       process.env.NEXT_PUBLIC_HOST +
-        "/api/riwayat-pendidikans?populate=users_permisions_user",
+        "/api/penghargaans?populate=users_permisions_user",
       {
         method: "POST",
         headers: {
@@ -60,37 +62,31 @@ export default function PendidikanFormal({ user }) {
         },
         body: JSON.stringify({
           data: {
-            nama: rpendidikan.nama,
-            star_date: formatDate(rpendidikan.star_date),
-            finish_date: formatDate(rpendidikan.finish_date),
+            nama: penghargaan.nama,
+            kota: penghargaan.kota,
+            tgl_terima: formatDate(penghargaan.tgl_terima),
+            desc: penghargaan.desc,
             users_permissions_user: [user.id],
-            desc: rpendidikan.desc,
-            kota: rpendidikan.kota,
           },
         }),
       }
     );
-
-    setRPendidikan({
+    setPenghargaan({
       nama: "",
-      desc: "",
       kota: "",
-      star_date: "",
-      finish_date: "",
+      tgl_terima: "",
+      desc: "",
     });
   }
 
   const delItem = async (id) => {
-    await fetch(
-      process.env.NEXT_PUBLIC_HOST + "/api/riwayat-pendidikans/" + id,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    await fetch(process.env.NEXT_PUBLIC_HOST + "/api/penghargaans/" + id, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+        "Content-Type": "application/json",
+      },
+    });
   };
 
   return (
@@ -114,68 +110,63 @@ export default function PendidikanFormal({ user }) {
                 />
               </svg>
             </span>
-            <span className="tracking-wide">Pendidikan Formal</span>
+            <span className="tracking-wide">Penghargaan Diterima</span>
           </div>
-          <form onSubmit={handleSavePendidikan} className="space-y-5">
+          <form onSubmit={handleSavePenghargaan} className="space-y-5">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div>
                 <input
-                  onChange={handleChangePendidikan}
-                  name="nama"
+                  onChange={handleChangePenghargaan}
+                  value={penghargaan.nama}
                   required
+                  name="nama"
                   className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                  placeholder="Masukan Nama Sekolah"
-                  value={rpendidikan.nama}
+                  placeholder="Instansi Pemberi Penghargaan"
                   type="text"
                   id="nama"
                 />
               </div>
               <div>
                 <input
-                  onChange={handleChangePendidikan}
-                  required
+                  onChange={handleChangePenghargaan}
+                  value={penghargaan.kota}
                   name="kota"
+                  required
                   className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                  placeholder="Kota"
-                  value={rpendidikan.kota}
+                  placeholder="kota Penghargaan"
                   type="text"
                   id="kota"
                 />
               </div>
             </div>
-
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-1">
+              <textarea
+                value={penghargaan.desc}
+                onChange={handleChangePenghargaan}
+                name="desc"
+                className="w-full rounded-lg border-gray-200 p-3 text-sm"
+                placeholder="Keterangan..."
+                rows="2"
+                id="message"
+              ></textarea>
+            </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
               <div>
                 <div className="relative max-w-sm">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-sm">
-                    Mulai,
+                    Tanggal Terima,
                   </div>
                   <input
-                    onChange={handleChangePendidikan}
+                    onChange={handleChangePenghargaan}
+                    value={penghargaan.tgl_terima}
+                    name="tgl_terima"
                     required
-                    value={rpendidikan.star_date}
-                    name="star_date"
                     type="date"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-16 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Tahun Masuk"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-28 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   />
                 </div>
               </div>
-              <div>
-                <div className="relative max-w-sm">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-sm">
-                    Selesai,
-                  </div>
-                  <input
-                    onChange={handleChangePendidikan}
-                    name="finish_date"
-                    value={rpendidikan.finish_date}
-                    type="date"
-                    required
-                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-16 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  />
-                </div>
-              </div>
+
               <div>
                 <button
                   type="submit"
@@ -188,7 +179,6 @@ export default function PendidikanFormal({ user }) {
           </form>
         </div>
         <div>
-          {" "}
           <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
             <span className="text-green-500">
               <svg
@@ -211,17 +201,17 @@ export default function PendidikanFormal({ user }) {
                 />
               </svg>
             </span>
-            <span className="tracking-wide">Education</span>
+            <span className="tracking-wide">Experience</span>
           </div>
           <ul className="list-inside space-y-2">
-            {data.riwayat_pendidikans.map((item, index) => (
+            {data.penghargaans.map((item, index) => (
               <div className="flex">
                 <div>
                   <li key={index}>
                     <div className="text-teal-600">{item.nama}</div>
                     <div className="text-gray-500 text-xs space-x-5">
                       <span className="text-black">{item.kota},</span>{" "}
-                      {item.star_date} {item.finish_date}
+                      {item.tgl_terima}
                       <span
                         className="cursor-pointer bg-red-500 text-white  rounded-md pl-2 pr-2"
                         onClick={() => delItem(item.id)}

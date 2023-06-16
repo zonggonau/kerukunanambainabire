@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import parse from "html-react-parser";
 
-export default function Kegiatan(data) {
+export default function ProgramKerja(data) {
   function formatDate(tgl) {
     const d = new Date(tgl);
     const tahun = d.getFullYear();
@@ -29,14 +29,14 @@ export default function Kegiatan(data) {
   return (
     <>
       <Head>
-        <title>Kegiatan Kerukunan</title>
+        <title>Program Kerja</title>
       </Head>
       <main>
         <section className="py-10 bg-white sm:py-16 lg:py-24">
           <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
             <div className="max-w-2xl mx-auto text-center">
               <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">
-                Kegiatan Kerukunan
+                Program Kerja
               </h2>
               <p className="max-w-xl mx-auto mt-4 text-base leading-relaxed text-gray-600">
                 Amet minim mollit non deserunt ullamco est sit aliqua dolor do
@@ -55,7 +55,7 @@ export default function Kegiatan(data) {
                 const thumnailName =
                   item.attributes.featured.data.attributes.formats.thumbnail
                     .name;
-                if (kategori == "kegiatan") {
+                if (kategori == "program-kerja") {
                   return (
                     <div className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
                       <Link

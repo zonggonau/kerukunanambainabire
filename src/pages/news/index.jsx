@@ -4,6 +4,28 @@ import Link from "next/link";
 import parse from "html-react-parser";
 
 export default function News(data) {
+  function formatDate(tgl) {
+    const d = new Date(tgl);
+    const tahun = d.getFullYear();
+    const month = d.getMonth();
+    const date = d.getDate();
+    const mString = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+    const dateString = date + " " + mString[month - 1] + " " + tahun;
+    return dateString;
+  }
   return (
     <>
       <Head>
@@ -33,45 +55,46 @@ export default function News(data) {
                 const thumnailName =
                   item.attributes.featured.data.attributes.formats.thumbnail
                     .name;
-
-                return (
-                  <div className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
-                    <Link
-                      href={`/news/${kategori}/${slug}`}
-                      title=""
-                      className="block aspect-w-4 aspect-h-3"
-                    >
-                      <Image
-                        className="h-56 w-full object-cover"
-                        src={process.env.NEXT_PUBLIC_HOST + thumnailUrl}
-                        width={500}
-                        height={500}
-                        alt={thumnailName}
-                      />
-                    </Link>
-                    <div className="bg-white p-4 sm:p-6">
-                      <span className="inline-flex px-4 py-2 text-xs font-semibold tracking-widest uppercase rounded-full text-rose-500 bg-rose-100">
-                        {kategori}
-                      </span>
-                      <p className="mt-6 text-md font-semibold">
-                        <Link
-                          href="#"
-                          title=""
-                          className="mt-0.5 text-md text-gray-900"
-                        >
-                          {item.attributes.judul.substring(0, 100)}
-                        </Link>
-                      </p>
-                      {/* <p className="mt-2 text-sm leading-relaxed text-gray-500 line-clamp-3">
-                       
-                      </p> */}
-                      <div className="h-0 mt-6 mb-4 border-t-2 border-gray-200 border-dashed"></div>
-                      <span className="block font-bold tracking-widest text-gray-500 uppercase  text-xs ">
-                        {item.attributes.tanggal_berita}
-                      </span>
+                if (kategori == "berita") {
+                  return (
+                    <div className="overflow-hidden rounded-lg shadow transition hover:shadow-lg">
+                      <Link
+                        href={`/news/${kategori}/${slug}`}
+                        title=""
+                        className="block aspect-w-4 aspect-h-3"
+                      >
+                        <Image
+                          className="h-56 w-full object-cover"
+                          src={process.env.NEXT_PUBLIC_HOST + thumnailUrl}
+                          width={500}
+                          height={500}
+                          alt={thumnailName}
+                        />
+                      </Link>
+                      <div className="bg-white p-4 sm:p-6">
+                        <span className="inline-flex px-4 py-2 text-xs font-semibold tracking-widest uppercase rounded-full text-rose-500 bg-rose-100">
+                          {kategori}
+                        </span>
+                        <p className="mt-6 text-md font-semibold">
+                          <Link
+                            href="#"
+                            title=""
+                            className="mt-0.5 text-md text-gray-900"
+                          >
+                            {item.attributes.judul.substring(0, 100)}
+                          </Link>
+                        </p>
+                        {/* <p className="mt-2 text-sm leading-relaxed text-gray-500 line-clamp-3">
+                         
+                        </p> */}
+                        <div className="h-0 mt-6 mb-4 border-t-2 border-gray-200 border-dashed"></div>
+                        <span className="block font-bold tracking-widest text-gray-500 uppercase  text-xs ">
+                          {formatDate(item.attributes.tanggal_berita)}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                );
+                  );
+                }
               })}
             </div>
           </div>

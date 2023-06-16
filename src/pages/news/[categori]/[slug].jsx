@@ -21,100 +21,134 @@ export default function Slug({ data }) {
 
   // const author =
   // data[0].attributes.users_permissions_user.data.attributes.username;
-  const thumnailUrl =
-    data[0].attributes.featured.data.attributes.formats.thumbnail.url;
+  const thumnailUrl = data[0].attributes.featured.data.attributes.url;
   const thumnailName =
     data[0].attributes.featured.data.attributes.formats.thumbnail.name;
   const seoImage = process.env.NEXT_PUBLIC_HOST + thumnailUrl;
 
+  const tgl_berita = data[0].attributes.tanggal_berita;
+
+  function formatDate() {
+    const d = new Date(tgl_berita);
+    const tahun = d.getFullYear();
+    const month = d.getMonth();
+    const date = d.getDate();
+    const mString = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+    const dateString = date + " " + mString[month - 1] + " " + tahun;
+    return dateString;
+  }
+
+  console.log(formatDate());
+
   return (
     <>
       <Seo judul={judul} descriptions={descriptions} image={seoImage} />
-      <div className="p-5 mx-auto sm:p-10 md:p-16 dark:bg-gray-800 dark:text-gray-100">
-        <div className="flex flex-col max-w-3xl mx-auto overflow-hidden rounded">
-          <Image
-            src={process.env.NEXT_PUBLIC_HOST + thumnailUrl}
-            alt={thumnailName}
-            width={1000}
-            height={1000}
-            className="w-full h-60 sm:h-96 dark:bg-gray-500"
-          />
-          <div className="p-6 pb-12 m-4 mx-auto -mt-16 space-y-6 lg:max-w-2xl sm:px-10 sm:mx-12 lg:rounded-md dark:bg-gray-900">
-            <div className="space-y-2">
-              <p
-                rel="noopener noreferrer"
-                href="#"
-                className="inline-block text-2xl font-semibold sm:text-3xl"
-              >
+
+      <div className="max-w-screen-lg mx-auto">
+        <main className="mt-10">
+          <div className="mb-4 md:mb-0 w-full mx-auto relative">
+            <div className="px-4 lg:px-0">
+              <h2 className="text-4xl font-bold text-gray-900 leading-tight">
                 {judul}
-              </p>
-              <div className="flex justify-between items-center">
-                <div className="item-center">
-                  <p className="text-md dark:text-gray-400">
-                    {/* Oleh: {author}, Senin 20 April 2023 */}
-                  </p>
-                </div>
-                <div className="flex items-center space-x-1">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-5 h-5"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <p className="bg-blue-600 pr-3 pl-3 rounded-full">10</p>
-                </div>
-              </div>
+              </h2>
+              <a
+                href="#"
+                className="py-2 text-green-700 inline-flex items-center justify-center mb-2"
+              >
+                {formatDate()}
+              </a>
             </div>
-            <hr />
-            <div className="dark:text-gray-100">{parse(konten)}</div>
-            <hr />
-            <div>
-              <p className="text-md dark:text-gray-400">Share it</p>
+
+            <Image
+              src={process.env.NEXT_PUBLIC_HOST + thumnailUrl}
+              alt={thumnailName}
+              width={1000}
+              height={1000}
+              className="w-full h-60 sm:h-96 dark:bg-gray-500"
+            />
+          </div>
+
+          <div className="flex flex-col lg:flex-row lg:space-x-12 pb-10">
+            <div className="px-4 lg:px-0 mt-12 text-gray-700 text-lg leading-relaxed w-full lg:w-3/4">
+              {parse(konten)}
             </div>
-            <div className="flex space-x-8 items-center">
-              <div>
-                <FacebookShareButton
-                  url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
-                  quote={judul}
-                  hashtag={"#nextshare"}
-                >
-                  <FacebookIcon size={50} round />
-                </FacebookShareButton>
-              </div>
-              <div>
-                <WhatsappShareButton
-                  url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
-                  quote={judul}
-                  hashtag={"#nextshare"}
-                >
-                  <WhatsappIcon size={50} round />
-                </WhatsappShareButton>
-              </div>
-              <div>
-                <TwitterShareButton
-                  url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
-                  quote={judul}
-                  hashtag={"#nextshare"}
-                >
-                  <TwitterIcon size={50} round />
-                </TwitterShareButton>
+
+            <div className="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm">
+              <div className="p-4 border-t border-b md:border md:rounded">
+                <div className="flex py-2">
+                  <img
+                    src="https://randomuser.me/api/portraits/men/97.jpg"
+                    className="h-10 w-10 rounded-full mr-2 object-cover"
+                  />
+                  <div>
+                    <p className="font-semibold text-gray-700 text-sm">
+                      {" "}
+                      Mike Sullivan{" "}
+                    </p>
+                    <p className="font-semibold text-gray-600 text-xs">
+                      {" "}
+                      Editor{" "}
+                    </p>
+                  </div>
+                </div>
+                <p className="text-gray-700 py-3">
+                  Mike writes about technology Yourself required no at thoughts
+                  delicate landlord it be. Branched dashwood do is whatever it.
+                </p>
+                <button className="px-2 py-1 text-gray-100 bg-green-700 flex w-full items-center justify-center rounded">
+                  Follow
+                  <i className="bx bx-user-plus ml-2"></i>
+                </button>
               </div>
             </div>
           </div>
-        </div>
+          <hr />
+          <div className="pb-5 lg:pl-0 pl-3">
+            <p className="text-lg font-bold">Bagikan</p>
+          </div>
+          <div className="flex space-x-8 pb-10 lg:pl-0 pl-3">
+            <div>
+              <FacebookShareButton
+                url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
+                quote={judul}
+                hashtag={"#IKKAN"}
+              >
+                <FacebookIcon size={35} round />
+              </FacebookShareButton>
+            </div>
+            <div>
+              <WhatsappShareButton
+                url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
+                quote={judul}
+                hashtag={"#IKKAN"}
+              >
+                <WhatsappIcon size={35} round />
+              </WhatsappShareButton>
+            </div>
+            <div>
+              <TwitterShareButton
+                url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
+                quote={judul}
+                hashtag={"#IKKAN"}
+              >
+                <TwitterIcon size={35} round />
+              </TwitterShareButton>
+            </div>
+          </div>
+        </main>
       </div>
     </>
   );

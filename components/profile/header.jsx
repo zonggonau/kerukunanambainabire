@@ -1,18 +1,19 @@
 import { useState } from "react";
+import Link from "next/link";
 
-export default function Header({ logout, user }) {
+export default function Header({ logout, user, imgProfile }) {
   const [open, setIsOpen] = useState(false);
   return (
     <>
       <div className="w-full text-white bg-main-color">
         <div className="flex flex-col max-w-screen-xl px-4 mx-auto md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
           <div className="p-4 flex flex-row items-center justify-between">
-            <a
-              href="#"
+            <Link
+              href="/user/profile"
               className="text-lg font-semibold tracking-widest uppercase rounded-lg focus:outline-none focus:shadow-outline"
             >
               IKKAN PROFILE
-            </a>
+            </Link>
             <button className="md:hidden rounded-lg focus:outline-none focus:shadow-outline">
               <svg fill="currentColor" viewBox="0 0 20 20" className="w-6 h-6">
                 <path
@@ -38,7 +39,7 @@ export default function Header({ logout, user }) {
                 <span>{user}</span>
                 <img
                   className="inline h-6 rounded-full"
-                  src="https://avatars2.githubusercontent.com/u/24622175?s=60&amp;v=4"
+                  src={process.env.NEXT_PUBLIC_HOST + imgProfile}
                 />
                 <svg
                   fill="currentColor"

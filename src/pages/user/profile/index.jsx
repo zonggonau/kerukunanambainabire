@@ -21,7 +21,6 @@ const fetcher = ([url, token]) =>
   });
 
 export default function Profile({ user, jabatan, kerukunan, distrik }) {
-  const [img, setImg] = useState(null);
   const [users, setUsers] = useRecoilState(userState);
   const router = useRouter();
   const [isView, setIsView] = useRecoilState(viewState);
@@ -87,22 +86,7 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
     }
   }
 
-  async function deleteImage() {
-    const req_idPP = await fetch(
-      process.env.NEXT_PUBLIC_HOST + "/api/photo-profiles/" + img,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
-        },
-      }
-    );
-    const res_idPP = await req_idPP.json();
-    console.log(res_idPP);
-  }
-
   async function uploadImage(e) {
-    // await deleteImage();
     e.preventDefault();
     const formData = new FormData();
     formData.append("files", image);
@@ -148,7 +132,6 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
   }
 
   async function getProfileImage(idPic) {
-    setImg(idPic);
     if (idPic != null) {
       const req = await fetch(
         process.env.NEXT_PUBLIC_HOST + "/api/upload/files/" + idPic,
@@ -159,7 +142,7 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
         }
       );
       const res = await req.json();
-      const ImgProfile = await res.formats.thumbnail.url;
+      const ImgProfile = await res.url;
       setImgProfile(ImgProfile);
     }
   }
@@ -187,13 +170,12 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
   return (
     <>
       <div className="bg-gray-200">
-        <Header logout={logout} user={user.name} />
+        <Header logout={logout} user={user.name} imgProfile={imgProfile} />
         <div className="container mx-auto my-5 p-5">
           <div className="md:flex no-wrap md:-mx-2">
             {/* LEFTBAR */}
             <div className="w-full md:w-3/12 md:mx-2">
               <div className="rounded-lg p-3 bg-white  shadow-lg lg:col-span-3 lg:p-3">
-                <button onClick={() => deleteImage()}>Delete</button>
                 <div className="image overflow-hidden">
                   {localView ? (
                     <Image

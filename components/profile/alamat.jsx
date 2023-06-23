@@ -6,6 +6,10 @@ export default function Alamat({ handleChange, distrik }) {
   const anggota = useRecoilValue(anggotaState);
   const [kelurahan, setKelurahan] = useState([]);
 
+  useEffect(() => {
+    getKelurahan();
+  });
+
   const getKelurahan = async () => {
     // get the data from the api
     const req = await fetch(
@@ -17,8 +21,6 @@ export default function Alamat({ handleChange, distrik }) {
     // set state with the result
     setKelurahan(res);
   };
-
-  getKelurahan().catch(console.error);
 
   return (
     <>

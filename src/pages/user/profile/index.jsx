@@ -21,6 +21,7 @@ const fetcher = ([url, token]) =>
   });
 
 export default function Profile({ user, jabatan, kerukunan, distrik }) {
+  const [img, setImg] = useState(null);
   const [users, setUsers] = useRecoilState(userState);
   const router = useRouter();
   const [isView, setIsView] = useRecoilState(viewState);
@@ -86,7 +87,22 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
     }
   }
 
+  async function deleteImage() {
+    const req_idPP = await fetch(
+      process.env.NEXT_PUBLIC_HOST + "/api/photo-profiles/" + img,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+        },
+      }
+    );
+    const res_idPP = await req_idPP.json();
+    console.log(res_idPP);
+  }
+
   async function uploadImage(e) {
+    // await deleteImage();
     e.preventDefault();
     const formData = new FormData();
     formData.append("files", image);
@@ -117,19 +133,22 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
   }
 
   function logout() {
-    nookies.destroy(null, "token");
-    nookies.destroy(null, "id");
-    nookies.destroy(null, "name");
-    nookies.destroy(null, "email");
+    // nookies.destroy(null, "token");
+    // nookies.destroy(null, "id");
+    // nookies.destroy(null, "name");
+    // nookies.destroy(null, "email");
+    // nookies.destroy(null, "admin");
     destroyCookie(null, "token");
     destroyCookie(null, "id");
     destroyCookie(null, "name");
     destroyCookie(null, "email");
+    destroyCookie(null, "admin");
     setUsers({});
     router.replace("/");
   }
 
   async function getProfileImage(idPic) {
+    setImg(idPic);
     if (idPic != null) {
       const req = await fetch(
         process.env.NEXT_PUBLIC_HOST + "/api/upload/files/" + idPic,
@@ -174,6 +193,7 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
             {/* LEFTBAR */}
             <div className="w-full md:w-3/12 md:mx-2">
               <div className="rounded-lg p-3 bg-white  shadow-lg lg:col-span-3 lg:p-3">
+                <button onClick={() => deleteImage()}>Delete</button>
                 <div className="image overflow-hidden">
                   {localView ? (
                     <Image
@@ -346,16 +366,27 @@ function newFunction() {
 
 export async function getServerSideProps(ctx) {
   const cookie = nookies.get(ctx);
+  console.log(cookie);
   const user = {
     id: cookie.id,
     name: cookie.name,
     email: cookie.email,
+    admin: cookie.admin,
+    token: cookie.token,
   };
 
   if (!cookie.token) {
     return {
       redirect: {
         destination: "/",
+      },
+    };
+  }
+
+  if (cookie.admin === "admin") {
+    return {
+      redirect: {
+        destination: "/admin/dashbord",
       },
     };
   }

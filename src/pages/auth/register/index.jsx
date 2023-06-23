@@ -119,7 +119,7 @@ export default function Register() {
                     required=""
                   />
                 </div>
-                <div className="flex items-start">
+                {/* <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
                       id="terms"
@@ -143,7 +143,7 @@ export default function Register() {
                       </a>
                     </label>
                   </div>
-                </div>
+                </div> */}
                 <button
                   onClick={() => registerNewUser()}
                   type="submit"

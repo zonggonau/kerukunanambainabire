@@ -16,6 +16,7 @@ const userState = atom({
     id: "",
     name: "",
     email: "",
+    admin: "",
   },
 });
 

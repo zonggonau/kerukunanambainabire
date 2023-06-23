@@ -15,7 +15,7 @@ export default function Document() {
           defer
         /> */}
       </Head>
-      <body>
+      <body class="bg-black-alt font-sans leading-normal tracking-normal">
         <Main />
         <NextScript />
       </body>

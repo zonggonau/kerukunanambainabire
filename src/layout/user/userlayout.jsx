@@ -9,12 +9,13 @@ Router.onRouteChangeStart = (url) => {
 Router.onRouteChangeComplete = () => NProgress.done();
 Router.onRouteChangeError = () => NProgress.done();
 
-export default function AdminLayout({ children }) {
+export default function UserLayout({ children }) {
   return (
     <>
       <Head>
-        <title>Admin Layout</title>
+        <title>User Layout</title>
       </Head>
+      {/* <SideBar /> */}
       {children}
     </>
   );

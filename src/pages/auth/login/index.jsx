@@ -47,6 +47,7 @@ export default function LoginPage() {
       nookies.set(null, "id", user.id);
       nookies.set(null, "name", user.username);
       nookies.set(null, "email", user.email);
+      nookies.set(null, "admin", user.admin);
       router.replace("/user/profile");
     } else {
       setIsValid(true);
@@ -132,7 +133,7 @@ export default function LoginPage() {
                   required=""
                 />
               </div>
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <div className="flex items-start">
                   <div className="flex items-center h-5">
                     <input
@@ -158,10 +159,10 @@ export default function LoginPage() {
                 >
                   Forgot password?
                 </a>
-              </div>
+              </div> */}
               <button
                 onClick={handleAuth}
-                className="w-full border text-gray-800 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="w-full border text-gray-400 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Masuk
               </button>
@@ -182,8 +183,9 @@ export default function LoginPage() {
   );
 }
 
-export async function getStaticProps(ctx) {
+export async function getServerSideProps(ctx) {
   const cookies = nookies.get(ctx);
+  // console.log(cookies);
   if (cookies.token) {
     return {
       redirect: {

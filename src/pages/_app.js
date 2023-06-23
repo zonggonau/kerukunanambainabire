@@ -4,13 +4,8 @@ import AuthLayout from "@/layout/auth/authlayout";
 import { SessionProvider } from "next-auth/react";
 import { useRouter } from "next/router";
 import AdminLayout from "@/layout/admin/adminlayout";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import UserLayout from "@/layout/user/userlayout";
+import { RecoilRoot } from "recoil";
 
 export default function App({ Component, pageProps, session }) {
   const Router = useRouter();
@@ -34,9 +29,9 @@ export default function App({ Component, pageProps, session }) {
     return getLayout(
       <SessionProvider session={session}>
         <RecoilRoot>
-          <AdminLayout>
+          <UserLayout>
             <Component {...pageProps} />
-          </AdminLayout>
+          </UserLayout>
         </RecoilRoot>
       </SessionProvider>
     );

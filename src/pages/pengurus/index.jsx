@@ -25,7 +25,7 @@ export default function Organisasi({ data }) {
         }
       );
       const res = await req.json();
-      const ImgProfile = await res.formats.thumbnail.url;
+      const ImgProfile = await res.url;
       setImgProfile(ImgProfile);
     }
   }

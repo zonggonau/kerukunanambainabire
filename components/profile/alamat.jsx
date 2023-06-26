@@ -8,7 +8,7 @@ export default function Alamat({ handleChange, distrik }) {
 
   useEffect(() => {
     getKelurahan();
-  });
+  }, []);
 
   const getKelurahan = async () => {
     // get the data from the api
@@ -21,6 +21,8 @@ export default function Alamat({ handleChange, distrik }) {
     // set state with the result
     setKelurahan(res);
   };
+
+  console.log(kelurahan);
 
   return (
     <>

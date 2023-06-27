@@ -2,27 +2,18 @@ import { useRecoilValue } from "recoil";
 import { anggotaState } from "../../store";
 import { useEffect, useState } from "react";
 
-export default function Alamat({ handleChange, distrik }) {
+export default function Alamat({ handleChange, distrik, kelurahan }) {
   const anggota = useRecoilValue(anggotaState);
-  const [kelurahan, setKelurahan] = useState([]);
 
-  useEffect(() => {
-    getKelurahan();
-  }, []);
-
-  const getKelurahan = async () => {
-    // get the data from the api
-    const req = await fetch(
-      `http://www.emsifa.com/api-wilayah-indonesia/api/villages/${anggota.distrik}.json`
-    );
-    // convert the data to json
-    const res = await req.json();
-
-    // set state with the result
-    setKelurahan(res);
+  const Kelurahan = () => {
+    if (kelurahan !== "") {
+      return kelurahan.map((item) => (
+        <>
+          <option value={item.id}>{item.name}</option>
+        </>
+      ));
+    }
   };
-
-  console.log(kelurahan);
 
   return (
     <>
@@ -72,10 +63,7 @@ export default function Alamat({ handleChange, distrik }) {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option value="">Kelurahan/Kampung</option>
-
-            {kelurahan.map((item) => (
-              <option value={item.id}>{item.name}</option>
-            ))}
+            <Kelurahan />
           </select>
         </div>
         <div>

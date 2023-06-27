@@ -27,9 +27,28 @@ export default function Editdata({
   const [success, setSuccess] = useRecoilState(successState);
   const [isView, setIsView] = useRecoilState(viewState);
 
+  const getKelurahan = async (distrik) => {
+    // get the data from the api
+    const req = await fetch(
+      `http://www.emsifa.com/api-wilayah-indonesia/api/villages/${distrik}.json`
+    );
+    // convert the data to json
+    const res = await req.json();
+
+    // set state with the result
+    setKelurahan(res);
+  };
+
+  useEffect(() => {
+    if (anggota.distrik !== "") {
+      getKelurahan(anggota.distrik);
+    }
+  }, []);
+
   const handleChange = (e) => {
     if (e.target.id === "distrik") {
-      setKelurahan(e.target.value);
+      // setKelurahan(e.target.value);
+      getKelurahan(e.target.value);
     }
     setAnggota((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
@@ -137,7 +156,11 @@ export default function Editdata({
           >
             <About handleChange={handleChange} />
             <Ktp handleChange={handleChange} />
-            <Alamat handleChange={handleChange} distrik={distrik} />
+            <Alamat
+              handleChange={handleChange}
+              distrik={distrik}
+              kelurahan={kelurahan}
+            />
             <Jabatan
               handleChange={handleChange}
               jabatan={jabatan}

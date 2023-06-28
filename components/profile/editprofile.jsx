@@ -34,7 +34,7 @@ export default function Editdata({
     );
     // convert the data to json
     const res = await req.json();
-
+    console.log(res);
     // set state with the result
     setKelurahan(res);
   };
@@ -44,7 +44,7 @@ export default function Editdata({
       getKelurahan(anggota.distrik);
     }
   }, []);
-  console.log(kelurahan);
+  // console.log(kelurahan);
 
   const handleChange = (e) => {
     if (e.target.id === "distrik") {

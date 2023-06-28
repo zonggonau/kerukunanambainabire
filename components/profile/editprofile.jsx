@@ -27,9 +27,15 @@ export default function Editdata({
   const [success, setSuccess] = useRecoilState(successState);
   const [isView, setIsView] = useRecoilState(viewState);
 
-  const getKelurahan = async (codeDistrik) => {
-    // get the data from the api
+  useEffect(() => {
+    if (anggota.distrik !== "") {
+      console.log("use Effects");
+      getKelurahan(anggota.distrik);
+    }
+  }, []);
 
+  async function getKelurahan(codeDistrik) {
+    // get the data from the api
     const req = await fetch(
       `http://www.emsifa.com/api-wilayah-indonesia/api/villages/${codeDistrik}.json`
     );
@@ -37,13 +43,8 @@ export default function Editdata({
     const res = await req.json();
     // set state with the result
     setKelurahan(res);
-  };
+  }
 
-  useEffect(() => {
-    if (anggota.distrik !== "") {
-      getKelurahan(anggota.distrik);
-    }
-  }, []);
   // console.log(kelurahan);
 
   const handleChange = (e) => {

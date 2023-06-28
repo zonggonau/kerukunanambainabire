@@ -348,7 +348,6 @@ function newFunction() {
 
 export async function getServerSideProps(ctx) {
   const cookie = nookies.get(ctx);
-  console.log(cookie);
   const user = {
     id: cookie.id,
     name: cookie.name,

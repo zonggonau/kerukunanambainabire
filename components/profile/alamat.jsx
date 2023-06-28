@@ -1,6 +1,5 @@
 import { useRecoilValue } from "recoil";
 import { anggotaState } from "../../store";
-import { useEffect, useState } from "react";
 
 export default function Alamat({ handleChange, distrik, kelurahan }) {
   const anggota = useRecoilValue(anggotaState);

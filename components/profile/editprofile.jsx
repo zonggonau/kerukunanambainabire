@@ -44,6 +44,7 @@ export default function Editdata({
       getKelurahan(anggota.distrik);
     }
   }, []);
+  console.log(kelurahan);
 
   const handleChange = (e) => {
     if (e.target.id === "distrik") {
@@ -52,7 +53,6 @@ export default function Editdata({
     }
     setAnggota((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
-
   async function handleSave(e) {
     e.preventDefault();
 

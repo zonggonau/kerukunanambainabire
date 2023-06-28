@@ -1,7 +1,6 @@
 import { useRecoilState } from "recoil";
 import useSWR from "swr";
 import { viewState } from "../../store";
-import Editdata from "./editprofile";
 
 const fetcher = ([url, token]) =>
   fetch(url, {

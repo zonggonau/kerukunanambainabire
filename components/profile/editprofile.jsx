@@ -12,7 +12,7 @@ import {
   viewState,
 } from "../../store";
 import { useRecoilState } from "recoil";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Penghargaan from "./penghargaan";
 
 export default function Editdata({
@@ -22,7 +22,7 @@ export default function Editdata({
   kerukunan,
   distrik,
 }) {
-  const [kelurahan, setKelurahan] = useRecoilState(codeDistrikState);
+  const [kelurahan, setKelurahan] = useState([]);
   const [anggota, setAnggota] = useRecoilState(anggotaState);
   const [success, setSuccess] = useRecoilState(successState);
   const [isView, setIsView] = useRecoilState(viewState);

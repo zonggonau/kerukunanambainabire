@@ -27,14 +27,14 @@ export default function Editdata({
   const [success, setSuccess] = useRecoilState(successState);
   const [isView, setIsView] = useRecoilState(viewState);
 
-  const getKelurahan = async (distrik) => {
+  const getKelurahan = async (codeDistrik) => {
     // get the data from the api
+
     const req = await fetch(
-      `http://www.emsifa.com/api-wilayah-indonesia/api/villages/${distrik}.json`
+      `http://www.emsifa.com/api-wilayah-indonesia/api/villages/${codeDistrik}.json`
     );
     // convert the data to json
     const res = await req.json();
-    console.log(res);
     // set state with the result
     setKelurahan(res);
   };

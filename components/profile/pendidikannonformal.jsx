@@ -149,7 +149,7 @@ export default function PendidikanNonFormal({ user }) {
               <textarea
                 value={rpendidikan.desc}
                 onChange={handleChangePendidikan}
-                require
+                required
                 name="desc"
                 className="w-full rounded-lg border-gray-200 p-3 text-sm"
                 placeholder="Deskripsi Pelatihan"
@@ -228,9 +228,9 @@ export default function PendidikanNonFormal({ user }) {
           </div>
           <ul className="list-inside space-y-2">
             {data.pendidikannonformals.map((item, index) => (
-              <div className="flex">
+              <div className="flex" key={index}>
                 <div>
-                  <li key={index}>
+                  <li>
                     <div className="text-teal-600">{item.nama}</div>
                     <div className="text-gray-500 text-xs space-x-5">
                       <span className="text-black">{item.kota},</span>{" "}

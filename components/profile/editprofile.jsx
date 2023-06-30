@@ -5,12 +5,7 @@ import Ktp from "./ktp";
 import PendidikanFormal from "./pendidikanformal";
 import PendidikanNonFormal from "./pendidikannonformal";
 import RiwayatPekerjaan from "./riwayatpekerjaan";
-import {
-  anggotaState,
-  codeDistrikState,
-  successState,
-  viewState,
-} from "../../store";
+import { anggotaState, successState, viewState } from "../../store";
 import { useRecoilState } from "recoil";
 import { useEffect, useState } from "react";
 import Penghargaan from "./penghargaan";
@@ -29,23 +24,21 @@ export default function Editdata({
 
   useEffect(() => {
     if (anggota.distrik !== "") {
-      console.log("use Effects");
       getKelurahan(anggota.distrik);
     }
   }, []);
 
-  async function getKelurahan(codeDistrik) {
+  async function getKelurahan(code) {
     // get the data from the api
     const req = await fetch(
-      `http://www.emsifa.com/api-wilayah-indonesia/api/villages/${codeDistrik}.json`
+      "https://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=" +
+        code
     );
     // convert the data to json
-    const res = await req.json();
+    const { kelurahan } = await req.json();
     // set state with the result
-    setKelurahan(res);
+    setKelurahan(kelurahan);
   }
-
-  // console.log(kelurahan);
 
   const handleChange = (e) => {
     if (e.target.id === "distrik") {

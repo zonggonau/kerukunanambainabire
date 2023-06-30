@@ -13,7 +13,7 @@ export default function AdminLayout({ children }) {
   return (
     <>
       <Head>
-        <title>Admin Layout</title>
+        <title>IKKAN DASHBORD</title>
       </Head>
       {children}
     </>

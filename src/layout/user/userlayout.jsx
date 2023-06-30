@@ -13,7 +13,7 @@ export default function UserLayout({ children }) {
   return (
     <>
       <Head>
-        <title>User Layout</title>
+        <title>IKKAN DASHBORD</title>
       </Head>
       {/* <SideBar /> */}
       {children}

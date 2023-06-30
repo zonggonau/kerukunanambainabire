@@ -3,13 +3,12 @@ import { anggotaState } from "../../store";
 
 export default function Alamat({ handleChange, distrik, kelurahan }) {
   const anggota = useRecoilValue(anggotaState);
-
   const Kelurahan = () => {
     if (kelurahan !== "") {
-      return kelurahan.map((item) => (
-        <>
-          <option value={item.id}>{item.name}</option>
-        </>
+      return kelurahan.map((item, index) => (
+        <option key={index} value={item.id}>
+          {item.nama}
+        </option>
       ));
     }
   };
@@ -47,8 +46,10 @@ export default function Alamat({ handleChange, distrik, kelurahan }) {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           >
             <option value="">Distrik/Kecamatan</option>
-            {distrik.map((item) => (
-              <option value={item.id}>{item.name}</option>
+            {distrik.map((item, index) => (
+              <option key={index} value={item.id}>
+                {item.nama}
+              </option>
             ))}
           </select>
         </div>

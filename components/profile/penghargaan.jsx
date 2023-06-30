@@ -205,9 +205,9 @@ export default function Penghargaan({ user }) {
           </div>
           <ul className="list-inside space-y-2">
             {data.penghargaans.map((item, index) => (
-              <div className="flex">
+              <div className="flex" key={index}>
                 <div>
-                  <li key={index}>
+                  <li>
                     <div className="text-teal-600">{item.nama}</div>
                     <div className="text-gray-500 text-xs space-x-5">
                       <span className="text-black">{item.kota},</span>{" "}

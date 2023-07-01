@@ -60,8 +60,6 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
     refreshInterval: 1000,
   });
 
-  console.log(profile);
-
   if (error) return <div>Field to load Profile</div>;
   if (isLoading)
     return (

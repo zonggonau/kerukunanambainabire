@@ -221,7 +221,7 @@ export default function RiwayatPekerjaan({ user }) {
                 />
               </svg>
             </span>
-            <span className="tracking-wide">Experience</span>
+            <span className="tracking-wide">Pengelaman Bekerja</span>
           </div>
           <ul className="list-inside space-y-2">
             {data.riwayat_pekerjaans.map((item, index) => (

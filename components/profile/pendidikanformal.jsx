@@ -211,7 +211,7 @@ export default function PendidikanFormal({ user }) {
                 />
               </svg>
             </span>
-            <span className="tracking-wide">Education</span>
+            <span className="tracking-wide">Pendidikan Formal</span>
           </div>
           <ul className="list-inside space-y-2">
             {data.riwayat_pendidikans.map((item, index) => (

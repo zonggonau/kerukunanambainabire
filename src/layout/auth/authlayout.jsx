@@ -13,7 +13,7 @@ export default function AuthLayout({ children }) {
   return (
     <>
       <Head>
-        <title>Admin Layout</title>
+        <title>IKKAN AUTENTICATION</title>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css"

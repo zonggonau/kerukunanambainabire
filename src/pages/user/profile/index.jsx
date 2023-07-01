@@ -60,6 +60,8 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
     refreshInterval: 1000,
   });
 
+  console.log(profile);
+
   if (error) return <div>Field to load Profile</div>;
   if (isLoading)
     return (
@@ -117,11 +119,11 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
   }
 
   function logout() {
-    // nookies.destroy(null, "token");
-    // nookies.destroy(null, "id");
-    // nookies.destroy(null, "name");
-    // nookies.destroy(null, "email");
-    // nookies.destroy(null, "admin");
+    nookies.destroy(null, "token");
+    nookies.destroy(null, "id");
+    nookies.destroy(null, "name");
+    nookies.destroy(null, "email");
+    nookies.destroy(null, "admin");
     destroyCookie(null, "token");
     destroyCookie(null, "id");
     destroyCookie(null, "name");
@@ -228,9 +230,14 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
                 </p>
                 <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
                   <li className="flex items-center py-3">
-                    <Link href={`/user/profile/${user.id}`} target="_blank">
-                      Download
-                    </Link>
+                    {profile.anggota == null ? (
+                      ""
+                    ) : (
+                      <Link href={`/user/profile/${user.id}`} target="_blank">
+                        Download
+                      </Link>
+                    )}
+
                     <span className="ml-auto">
                       {isView ? (
                         <button

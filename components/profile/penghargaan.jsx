@@ -201,7 +201,7 @@ export default function Penghargaan({ user }) {
                 />
               </svg>
             </span>
-            <span className="tracking-wide">Experience</span>
+            <span className="tracking-wide">Penghargaan di Terimah</span>
           </div>
           <ul className="list-inside space-y-2">
             {data.penghargaans.map((item, index) => (

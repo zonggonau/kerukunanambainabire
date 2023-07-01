@@ -21,7 +21,7 @@ export default function Header({ logout, user, imgProfile }) {
               className="md:hidden rounded-lg focus:outline-none focus:shadow-outline"
             >
               <svg fill="currentColor" viewBox="0 0 20 20" className="w-6 h-6">
-                {open ? (
+                {mdOpen ? (
                   <>
                     <path
                       fillRule="evenodd"

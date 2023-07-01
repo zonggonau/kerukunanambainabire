@@ -142,7 +142,7 @@ export default function Editdata({
 
   return (
     <>
-      <div className="w-full md:w-9/12 mx-2 h-64">
+      <div className="w-full md:w-9/12 lg:mx-2 h-64">
         <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-6">
           <form
             onSubmit={profile.anggota == null ? handleSave : handleUpdate}

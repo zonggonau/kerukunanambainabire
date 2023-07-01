@@ -19,9 +19,9 @@ export default function Hero({ hero }) {
               </strong>
             </h1>
 
-            <div className="mt-8 flex flex-wrap gap-4 text-center py-12">
+            <div className="mt-8 flex flex-wrap gap-4 text-center py-12 justify-center">
               <Image
-                className="relative w-1/4 xl:max-w-lg xl:mx-auto 2xl:origin-bottom 2xl:scale-110"
+                className="relative xl:max-w-lg xl:mx-auto 2xl:origin-bottom 2xl:scale-110 h-48 w-48"
                 src={process.env.NEXT_PUBLIC_HOST + logo}
                 width={1000}
                 height={1000}

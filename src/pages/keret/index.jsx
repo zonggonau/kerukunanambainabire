@@ -68,7 +68,7 @@ export default function Keret({ data }) {
                 <>
                   <div key={index}>
                     <Image
-                      className="object-cover mx-auto rounded-lg w-28 h-28"
+                      className="object-cover mx-auto rounded-lg w-44 h-44 lg:rounded-full lg:h-auto"
                       src={process.env.NEXT_PUBLIC_HOST + imgProfile}
                       width={100}
                       height={100}

@@ -3,6 +3,8 @@ import Link from "next/link";
 
 export default function Header({ logout, user, imgProfile }) {
   const [open, setIsOpen] = useState(false);
+  const [mdOpen, setMdOpen] = useState(false);
+
   return (
     <>
       <div className="w-full text-white bg-main-color">
@@ -14,20 +16,60 @@ export default function Header({ logout, user, imgProfile }) {
             >
               IKKAN PROFILE
             </Link>
-            <button className="md:hidden rounded-lg focus:outline-none focus:shadow-outline">
+            <button
+              onClick={() => setMdOpen(!mdOpen)}
+              className="md:hidden rounded-lg focus:outline-none focus:shadow-outline"
+            >
               <svg fill="currentColor" viewBox="0 0 20 20" className="w-6 h-6">
-                <path
-                  fillRule="evenodd"
-                  clipRule={"evenodd"}
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
-                ></path>
-                <path
-                  fillRule="evenodd"
-                  clipRule={"evenodd"}
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                ></path>
+                {open ? (
+                  <>
+                    <path
+                      fillRule="evenodd"
+                      clipRule={"evenodd"}
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    ></path>
+                  </>
+                ) : (
+                  <>
+                    <path
+                      fillRule="evenodd"
+                      clipRule={"evenodd"}
+                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM9 15a1 1 0 011-1h6a1 1 0 110 2h-6a1 1 0 01-1-1z"
+                    ></path>
+                  </>
+                )}
               </svg>
             </button>
+          </div>
+          <div
+            id="dropdownMenu"
+            className="absolute top-14 w-full mt-2 origin-top-right rounded-md shadow-lg md:w-48"
+          >
+            <div
+              className={`py-2 bg-white text-blue-800 text-sm rounded-sm border border-main-color shadow-sm ${
+                mdOpen ? "" : "hidden"
+              }`}
+            >
+              <a
+                className="block px-4 py-2 mt-2 text-sm bg-white md:mt-0 focus:text-gray-900 hover:bg-indigo-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                href="#"
+              >
+                Settings
+              </a>
+              <a
+                className="block px-4 py-2 mt-2 text-sm bg-white md:mt-0 focus:text-gray-900 hover:bg-indigo-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+                href="#"
+              >
+                Help
+              </a>
+              <div className="border-b"></div>
+              <span
+                onClick={logout}
+                className="cursor-pointer block px-4 py-2 mt-2 text-sm bg-white md:mt-0 focus:text-gray-900 hover:bg-indigo-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+              >
+                Logout
+              </span>
+            </div>
           </div>
           <nav className="flex-col flex-grow pb-4 md:pb-0 hidden md:flex md:justify-end md:flex-row">
             <div className="relative">

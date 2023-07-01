@@ -38,16 +38,20 @@ export default function App({ Component, pageProps, session }) {
   }
   if (auth) {
     return (
-      <RecoilRoot>
-        <AuthLayout>
-          <Component {...pageProps} />
-        </AuthLayout>
-      </RecoilRoot>
+      <SessionProvider session={session}>
+        <RecoilRoot>
+          <AuthLayout>
+            <Component {...pageProps} />
+          </AuthLayout>
+        </RecoilRoot>
+      </SessionProvider>
     );
   }
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <SessionProvider session={session}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </SessionProvider>
   );
 }

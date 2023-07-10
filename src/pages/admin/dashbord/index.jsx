@@ -1,6 +1,6 @@
 import { useState } from "react";
 import nookies from "nookies";
-import { destroyCookie } from "nookies";
+import Cookies from "js-cookie";
 import { userState } from "../../../../store";
 import AdminLayout from "@/layout/admin/adminlayout";
 import NestedLayout from "@/layout/admin/nestedlayout";
@@ -11,18 +11,12 @@ export default function Dashbord(user) {
   const [open, setIsOpen] = useState(false);
   const router = useRouter();
 
-  console.log(user);
   function logout() {
-    // nookies.destroy(null, "token");
-    // nookies.destroy(null, "id");
-    // nookies.destroy(null, "name");
-    // nookies.destroy(null, "email");
-    // nookies.destroy(null, "admin");
-    destroyCookie(null, "token");
-    destroyCookie(null, "id");
-    destroyCookie(null, "name");
-    destroyCookie(null, "email");
-    destroyCookie(null, "admin");
+    Cookies.remove("token");
+    Cookies.remove("id");
+    Cookies.remove("name");
+    Cookies.remove("email");
+    Cookies.remove("admin");
     router.replace("/");
   }
   return (
@@ -733,7 +727,6 @@ Dashbord.getLayout = function getLayout(page) {
 
 export async function getServerSideProps(ctx) {
   const cookie = nookies.get(ctx);
-  console.log(cookie);
   const user = {
     id: cookie.id,
     name: cookie.name,
@@ -750,13 +743,13 @@ export async function getServerSideProps(ctx) {
     };
   }
 
-  // if (cookie.admin !== "admin") {
-  //   return {
-  //     redirect: {
-  //       destination: "/user/profile",
-  //     },
-  //   };
-  // }
+  if (cookie.admin !== "admin") {
+    return {
+      redirect: {
+        destination: "/user/profile",
+      },
+    };
+  }
 
   return {
     props: user,

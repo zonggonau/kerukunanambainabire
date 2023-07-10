@@ -4,6 +4,7 @@ import Hero from "../../components/hero";
 import Blog from "../../components/publikasi";
 import Team from "../../components/team";
 import "@/styles/Home.module.css";
+import { parseCookies } from "nookies";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home(data) {

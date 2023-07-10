@@ -43,7 +43,7 @@ export default function RiwayatPekerjaan({ user }) {
     setRPekerjaan((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
 
-  function formatDate(date) {
+  function changeDate(date) {
     var newDate = date.split("/").reverse().join("-");
     return newDate;
   }
@@ -63,8 +63,8 @@ export default function RiwayatPekerjaan({ user }) {
         body: JSON.stringify({
           data: {
             nama: rpekerjaan.nama,
-            star_date: formatDate(rpekerjaan.star_date),
-            finish_date: formatDate(rpekerjaan.finish_date),
+            star_date: changeDate(rpekerjaan.star_date),
+            finish_date: changeDate(rpekerjaan.finish_date),
             users_permissions_user: [user.id],
             desc: rpekerjaan.desc,
             kota: rpekerjaan.kota,
@@ -94,6 +94,28 @@ export default function RiwayatPekerjaan({ user }) {
     );
   };
 
+  function formatDate(tgl) {
+    const d = new Date(tgl);
+    const tahun = d.getFullYear();
+    const month = d.getMonth();
+    const date = d.getDate();
+    const mString = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+    const dateString = date + " " + mString[month - 1] + " " + tahun;
+    return dateString;
+  }
   return (
     <>
       <div>
@@ -231,7 +253,9 @@ export default function RiwayatPekerjaan({ user }) {
                     <div className="text-teal-600">{item.nama}</div>
                     <div className="text-gray-500 text-xs space-x-5">
                       <span className="text-black">{item.kota},</span>{" "}
-                      {item.star_date} {item.finish_date}
+                      {formatDate(item.star_date)}
+                      {" - "}
+                      {formatDate(item.finish_date)}
                       <span
                         className="cursor-pointer bg-red-500 text-white  rounded-md pl-2 pr-2"
                         onClick={() => delItem(item.id)}

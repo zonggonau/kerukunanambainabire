@@ -43,7 +43,7 @@ export default function Penghargaan({ user }) {
     setPenghargaan((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
 
-  function formatDate(date) {
+  function changeDate(date) {
     var newDate = date.split("/").reverse().join("-");
     return newDate;
   }
@@ -64,7 +64,7 @@ export default function Penghargaan({ user }) {
           data: {
             nama: penghargaan.nama,
             kota: penghargaan.kota,
-            tgl_terima: formatDate(penghargaan.tgl_terima),
+            tgl_terima: changeDate(penghargaan.tgl_terima),
             desc: penghargaan.desc,
             users_permissions_user: [user.id],
           },
@@ -88,6 +88,29 @@ export default function Penghargaan({ user }) {
       },
     });
   };
+
+  function formatDate(tgl) {
+    const d = new Date(tgl);
+    const tahun = d.getFullYear();
+    const month = d.getMonth();
+    const date = d.getDate();
+    const mString = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+    const dateString = date + " " + mString[month - 1] + " " + tahun;
+    return dateString;
+  }
 
   return (
     <>
@@ -208,10 +231,10 @@ export default function Penghargaan({ user }) {
               <div className="flex" key={index}>
                 <div>
                   <li>
-                    <div className="text-teal-600">{item.nama}</div>
+                    <div className="text-teal-600">{item.desc}</div>
                     <div className="text-gray-500 text-xs space-x-5">
                       <span className="text-black">{item.kota},</span>{" "}
-                      {item.tgl_terima}
+                      {formatDate(item.tgl_terima)}
                       <span
                         className="cursor-pointer bg-red-500 text-white  rounded-md pl-2 pr-2"
                         onClick={() => delItem(item.id)}

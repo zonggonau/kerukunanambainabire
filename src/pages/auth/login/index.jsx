@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import nookies from "nookies";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { successState } from "../../../../store";
 
-export default function LoginPage() {
+export default function LoginPage(token) {
   const router = useRouter();
 
   const [success, setSuccess] = useRecoilState(successState);
@@ -43,11 +44,11 @@ export default function LoginPage() {
     const { jwt, user } = await req.json();
 
     if (jwt && user) {
-      nookies.set(null, "token", jwt);
-      nookies.set(null, "id", user.id);
-      nookies.set(null, "name", user.username);
-      nookies.set(null, "email", user.email);
-      nookies.set(null, "admin", user.admin);
+      Cookies.set("token", jwt);
+      Cookies.set("id", user.id);
+      Cookies.set("name", user.username);
+      Cookies.set("email", user.email);
+      Cookies.set("admin", user.admin);
       router.replace("/user/profile");
     } else {
       setIsValid(true);
@@ -134,32 +135,32 @@ export default function LoginPage() {
                 />
               </div>
               {/* <div className="flex items-center justify-between">
-                <div className="flex items-start">
-                  <div className="flex items-center h-5">
-                    <input
-                      id="remember"
-                      aria-describedby="remember"
-                      type="checkbox"
-                      className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                      required=""
-                    />
+                  <div className="flex items-start">
+                    <div className="flex items-center h-5">
+                      <input
+                        id="remember"
+                        aria-describedby="remember"
+                        type="checkbox"
+                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                        required=""
+                      />
+                    </div>
+                    <div className="ml-3 text-sm">
+                      <label
+                        // for="remember"
+                        className="text-gray-500 dark:text-gray-300"
+                      >
+                        Remember me
+                      </label>
+                    </div>
                   </div>
-                  <div className="ml-3 text-sm">
-                    <label
-                      // for="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Forgot password?
-                </a>
-              </div> */}
+                  <a
+                    href="#"
+                    className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  >
+                    Forgot password?
+                  </a>
+                </div> */}
               <button
                 onClick={handleAuth}
                 className="w-full border text-gray-400 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -184,9 +185,9 @@ export default function LoginPage() {
 }
 
 export async function getServerSideProps(ctx) {
-  const cookies = nookies.get(ctx);
-  // console.log(cookies);
-  if (cookies.token) {
+  const cookie = nookies.get(ctx);
+  const token = cookie.token;
+  if (token) {
     return {
       redirect: {
         destination: "/user/profile",

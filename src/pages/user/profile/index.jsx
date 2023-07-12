@@ -163,122 +163,120 @@ export default function Profile({ user, jabatan, kerukunan, distrik }) {
     }
   }
 
-  if (user.token !== null) {
-    return (
-      <>
-        <div className="bg-gray-200">
-          <Header logout={logout} user={user.name} imgProfile={imgProfile} />
-          <div className="container mx-auto my-5 p-5">
-            <div className="md:flex no-wrap md:-mx-2">
-              {/* LEFTBAR */}
-              <div className="w-full md:w-3/12 md:mx-2">
-                <div className="rounded-lg p-3 bg-white  shadow-lg lg:col-span-3 lg:p-3">
-                  <div className="image overflow-hidden">
-                    {localView ? (
-                      <Image
-                        className="h-auto w-full mx-auto"
-                        src={createObjectUrl}
-                        width={500}
-                        height={500}
-                        alt=""
-                      />
-                    ) : (
-                      <Image
-                        className="h-auto w-full mx-auto"
-                        src={process.env.NEXT_PUBLIC_HOST + imgProfile}
-                        width={500}
-                        height={500}
-                        alt=""
-                      />
-                    )}
+  return (
+    <>
+      <div className="bg-gray-200">
+        <Header logout={logout} user={user.name} imgProfile={imgProfile} />
+        <div className="container mx-auto my-5 p-5">
+          <div className="md:flex no-wrap md:-mx-2">
+            {/* LEFTBAR */}
+            <div className="w-full md:w-3/12 md:mx-2">
+              <div className="rounded-lg p-3 bg-white  shadow-lg lg:col-span-3 lg:p-3">
+                <div className="image overflow-hidden">
+                  {localView ? (
+                    <Image
+                      className="h-auto w-full mx-auto"
+                      src={createObjectUrl}
+                      width={500}
+                      height={500}
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      className="h-auto w-full mx-auto"
+                      src={process.env.NEXT_PUBLIC_HOST + imgProfile}
+                      width={500}
+                      height={500}
+                      alt=""
+                    />
+                  )}
 
-                    {isView == false ? (
-                      <form onSubmit={uploadImage}>
-                        <div className="flex bg-blue-500">
-                          <input
-                            required
-                            className="block w-full text-sm text-gray-900 border border-gray-300  cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                            id="file_input"
-                            type="file"
-                            onChange={handleImage}
-                            name="photo_profile"
-                          />
-                          <button type="submit" className="pl-2 pr-2 text-sm">
-                            Upload
-                          </button>
-                        </div>
-                      </form>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                  <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
-                    {profile.anggota == null ? user.name : profile.anggota.nama}
-                  </h1>
-                  <h3 className="text-gray-600 font-lg font-bold text-semibold leading-6">
-                    {profile.anggota == null
-                      ? ""
-                      : profile.anggota.jabatan_kerukunan}
-                  </h3>
-                  {/* <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">
+                  {isView == false ? (
+                    <form onSubmit={uploadImage}>
+                      <div className="flex bg-blue-500">
+                        <input
+                          required
+                          className="block w-full text-sm text-gray-900 border border-gray-300  cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                          id="file_input"
+                          type="file"
+                          onChange={handleImage}
+                          name="photo_profile"
+                        />
+                        <button type="submit" className="pl-2 pr-2 text-sm">
+                          Upload
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
+                  {profile.anggota == null ? user.name : profile.anggota.nama}
+                </h1>
+                <h3 className="text-gray-600 font-lg font-bold text-semibold leading-6">
+                  {profile.anggota == null
+                    ? ""
+                    : profile.anggota.jabatan_kerukunan}
+                </h3>
+                {/* <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">
                     {profile.anggota == null ? "" : profile.anggota.desc}
                   </p> */}
-                  <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
-                    <li className="flex items-center py-3">
-                      {profile.anggota == null ? (
-                        ""
-                      ) : (
-                        <Link href={`/user/profile/${user.id}`} target="_blank">
-                          Download
-                        </Link>
-                      )}
+                <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
+                  <li className="flex items-center py-3">
+                    {profile.anggota == null ? (
+                      ""
+                    ) : (
+                      <Link href={`/user/profile/${user.id}`} target="_blank">
+                        Download
+                      </Link>
+                    )}
 
-                      <span className="ml-auto">
-                        {isView ? (
-                          <button
-                            className="bg-green-500 py-1 px-2 rounded text-white text-sm"
-                            onClick={() => handleEdit()}
-                          >
-                            Edit
-                          </button>
-                        ) : (
-                          <button
-                            className="bg-green-500 py-1 px-2 rounded text-white text-sm"
-                            onClick={() => handleEdit()}
-                          >
-                            view
-                          </button>
-                        )}
-                      </span>
-                    </li>
-                    {/* <li className="flex items-center py-3">
+                    <span className="ml-auto">
+                      {isView ? (
+                        <button
+                          className="bg-green-500 py-1 px-2 rounded text-white text-sm"
+                          onClick={() => handleEdit()}
+                        >
+                          Edit
+                        </button>
+                      ) : (
+                        <button
+                          className="bg-green-500 py-1 px-2 rounded text-white text-sm"
+                          onClick={() => handleEdit()}
+                        >
+                          view
+                        </button>
+                      )}
+                    </span>
+                  </li>
+                  {/* <li className="flex items-center py-3">
                       <span>Member since</span>
                       <span className="ml-auto">Nov 07, 2016</span>
                     </li> */}
-                  </ul>
-                </div>
-                <div className="my-4"></div>
-                {newFunction()}
+                </ul>
               </div>
-              {/* END LEFTBAR */}
               <div className="my-4"></div>
-              {isView ? (
-                <ViewProfile user={user} />
-              ) : (
-                <EditProfile
-                  user={user}
-                  profile={profile}
-                  jabatan={jabatan}
-                  kerukunan={kerukunan}
-                  distrik={distrik}
-                />
-              )}
+              {newFunction()}
             </div>
+            {/* END LEFTBAR */}
+            <div className="my-4"></div>
+            {isView ? (
+              <ViewProfile user={user} />
+            ) : (
+              <EditProfile
+                user={user}
+                profile={profile}
+                jabatan={jabatan}
+                kerukunan={kerukunan}
+                distrik={distrik}
+              />
+            )}
           </div>
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
 }
 
 function newFunction() {

@@ -1,0 +1,42 @@
+Header:
+
+Logo organisasi: Letakkan logo organisasi di pojok kiri atas.
+Menu navigasi: Buat menu navigasi yang jelas untuk memudahkan pengguna menemukan informasi yang mereka butuhkan.
+Tombol "Join" atau "Gabung": Tambahkan tombol yang mengarahkan pengguna untuk bergabung dengan organisasi atau menjadi anggota.
+Slider Banner:
+
+Gunakan slide banner untuk menampilkan gambar dan pesan yang relevan dengan organisasi.
+Tambahkan tombol panggilan tindakan seperti "Pelajari Selengkapnya" atau "Donasi Sekarang" untuk mengarahkan pengguna ke halaman yang lebih rinci atau halaman donasi.
+Tentang Kami:
+
+Buat bagian ini untuk memberikan gambaran singkat tentang organisasi.
+Sertakan sejarah, misi, dan visi organisasi.
+Tambahkan foto-foto atau gambar yang mewakili kegiatan atau acara organisasi.
+Program atau Kegiatan:
+
+Berikan daftar program atau kegiatan yang diadakan oleh organisasi.
+Sertakan deskripsi singkat, tanggal, lokasi, dan informasi relevan lainnya.
+Tambahkan galeri foto atau video dari kegiatan sebelumnya.
+Berita atau Blog:
+
+Buat bagian ini untuk membagikan berita terbaru, artikel, atau blog tentang organisasi dan kegiatan yang dilakukan.
+Tambahkan opsi untuk pengguna berlangganan atau mengikuti untuk mendapatkan pembaruan terbaru.
+Galeri Foto atau Video:
+
+Tampilkan galeri foto atau video yang menampilkan momen-momen penting organisasi.
+Berikan deskripsi singkat untuk setiap item dan kategori yang mudah diakses.
+Anggota atau Tim:
+
+Jika organisasi memiliki anggota atau tim, buat halaman yang menyajikan profil mereka.
+Sertakan foto, nama, dan deskripsi singkat tentang setiap anggota atau tim.
+Kontak:
+
+Berikan informasi kontak seperti alamat, nomor telepon, dan alamat email organisasi.
+Tambahkan formulir kontak yang memungkinkan pengguna mengirim pertanyaan atau pesan langsung ke organisasi.
+Tautan Sosial Media:
+
+Sertakan tautan ke akun media sosial organisasi seperti Facebook, Twitter, atau Instagram.
+Footer:
+
+Buat footer yang mencakup tautan penting seperti kebijakan privasi, syarat dan ketentuan, dan halaman lain yang relevan.
+Tambahkan informasi hak cipta dan logo organisasi di bagian bawah halaman.

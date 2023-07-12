@@ -34,8 +34,6 @@ export default function Register() {
         let user = response.data.user;
         let jwt = response.data.jwt;
         // Handle success.
-        // console.log("User profile", response.data.user);
-        // console.log("User token", response.data.jwt);
         if (user && jwt) {
           setSuccess(true);
           router.replace("/auth/login");
@@ -81,7 +79,7 @@ export default function Register() {
                     id="username"
                     placeholder="Nama Panggilan ?"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    required
                   />
                 </div>
 
@@ -99,7 +97,7 @@ export default function Register() {
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Masukan email aktive"
-                    required=""
+                    required
                   />
                 </div>
                 <div>
@@ -116,7 +114,7 @@ export default function Register() {
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
+                    required
                   />
                 </div>
                 {/* <div className="flex items-start">
@@ -146,18 +144,26 @@ export default function Register() {
                 </div> */}
                 <button
                   onClick={() => registerNewUser()}
-                  type="submit"
-                  className="w-full text-gray-400 border bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  // type="submit"
+                  className="w-full text-gray-900 border bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
                   Buat Akun
                 </button>
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-light text-gray-900 dark:text-gray-400">
                   Sudah memiliki akun?{" "}
                   <Link
                     href="/auth/login"
-                    className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                    className="font-bold text-blue-900 hover:underline dark:text-primary-500"
                   >
                     Login
+                  </Link>
+                </p>
+                <p className="text-sm font-light dark:text-gray-400 justify-center">
+                  <Link
+                    href="/"
+                    className="font-bold text-gray-400 hover:underline dark:text-primary-500"
+                  >
+                    Back
                   </Link>
                 </p>
               </div>

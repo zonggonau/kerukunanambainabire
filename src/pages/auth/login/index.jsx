@@ -49,7 +49,7 @@ export default function LoginPage(token) {
       Cookies.set("name", user.username);
       Cookies.set("email", user.email);
       Cookies.set("admin", user.admin);
-      router.replace("/user/profile");
+      router.replace("/admin/dashbord");
     } else {
       setIsValid(true);
     }
@@ -163,15 +163,15 @@ export default function LoginPage(token) {
                 </div> */}
               <button
                 onClick={handleAuth}
-                className="w-full border text-gray-400 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                className="w-full border text-gray-900 bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-bold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
               >
                 Masuk
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              <p className="text-sm font-light text-gray-900 dark:text-gray-400">
                 Belum Memiliki Akun?{" "}
                 <Link
                   href="/auth/register"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-900"
+                  className="font-bold text-blue-700 hover:underline dark:text-blue-900"
                 >
                   Daftar Segera
                 </Link>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import parse from "html-react-parser";
+import Link from "next/link";
 export default function Hero({ hero }) {
   const logo = hero.logo.data.attributes.url;
   const bg = hero.bg.data.attributes.url;
@@ -28,7 +29,17 @@ export default function Hero({ hero }) {
                 alt=""
               />
             </div>
-            {parse(hero.desc)}
+            <div className="flex flex-wrap gap-4 text-center py-10 justify-center text-xl">
+              {parse(hero.desc)}
+            </div>
+            <div>
+              <Link
+                href="/auth/register"
+                className="px-10 py-3 rounded-full mt-10 bg-red-600 text-white font-bold hover:bg-red-500"
+              >
+                GABUNG SEKRANG
+              </Link>
+            </div>
           </div>
         </div>
       </section>

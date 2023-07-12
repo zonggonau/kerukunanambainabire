@@ -19,8 +19,8 @@ export default function Slug({ data }) {
   const konten = data[0].attributes.konten;
   const descriptions = data[0].attributes.descriptions;
 
-  // const author =
-  // data[0].attributes.users_permissions_user.data.attributes.username;
+  const author =
+    data[0].attributes.users_permissions_user.data.attributes.username;
   const thumnailUrl = data[0].attributes.featured.data.attributes.url;
   const thumnailName =
     data[0].attributes.featured.data.attributes.formats.thumbnail.name;
@@ -57,69 +57,26 @@ export default function Slug({ data }) {
     <>
       <Seo judul={judul} descriptions={descriptions} image={seoImage} />
 
-      <div className="max-w-screen-lg mx-auto">
-        <main className="mt-10">
-          <div className="mb-4 md:mb-0 w-full mx-auto relative">
-            <div className="px-4 lg:px-0">
-              <h2 className="text-4xl font-bold text-gray-900 leading-tight">
-                {judul}
-              </h2>
-              <a
-                href="#"
-                className="py-2 text-green-700 inline-flex items-center justify-center mb-2"
-              >
-                {formatDate()}
-              </a>
-            </div>
+      <div class="container mx-auto py-8 bg-gray-50 px-3">
+        <div class="max-w-3xl mx-auto">
+          <h1 class="text-3xl font-bold mb-4">{judul}</h1>
+          <p class="text-gray-600 mb-4">
+            Tanggal: {formatDate()}, Editor: {author || "admin"}, View: 1000
+          </p>
 
-            <Image
-              src={process.env.NEXT_PUBLIC_HOST + thumnailUrl}
-              alt={thumnailName}
-              width={1000}
-              height={1000}
-              className="w-full h-60 sm:h-96 dark:bg-gray-500"
-            />
-          </div>
+          <Image
+            src={process.env.NEXT_PUBLIC_HOST + thumnailUrl}
+            alt={thumnailName}
+            width={1000}
+            height={1000}
+            class="mb-4"
+          />
 
-          <div className="flex flex-col lg:flex-row lg:space-x-12 pb-10">
-            <div className="px-4 lg:px-0 mt-12 text-gray-700 text-lg leading-relaxed w-full lg:w-3/4">
-              {parse(konten)}
-            </div>
+          <div class="text-gray-800 leading-relaxed mb-8"> {parse(konten)}</div>
 
-            <div className="w-full lg:w-1/4 m-auto mt-12 max-w-screen-sm">
-              <div className="p-4 border-t border-b md:border md:rounded">
-                <div className="flex py-2">
-                  <img
-                    src="https://randomuser.me/api/portraits/men/97.jpg"
-                    className="h-10 w-10 rounded-full mr-2 object-cover"
-                  />
-                  <div>
-                    <p className="font-semibold text-gray-700 text-sm">
-                      {" "}
-                      Mike Sullivan{" "}
-                    </p>
-                    <p className="font-semibold text-gray-600 text-xs">
-                      {" "}
-                      Editor{" "}
-                    </p>
-                  </div>
-                </div>
-                <p className="text-gray-700 py-3">
-                  Mike writes about technology Yourself required no at thoughts
-                  delicate landlord it be. Branched dashwood do is whatever it.
-                </p>
-                <button className="px-2 py-1 text-gray-100 bg-green-700 flex w-full items-center justify-center rounded">
-                  Follow
-                  <i className="bx bx-user-plus ml-2"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <hr />
-          <div className="pb-5 lg:pl-0 pl-3">
-            <p className="text-lg font-bold">Bagikan</p>
-          </div>
-          <div className="flex space-x-8 pb-10 lg:pl-0 pl-3">
+          <div class="flex items-center mb-8 space-x-5">
+            <span class="mr-4 text-gray-600">Bagikan:</span>
+
             <div>
               <FacebookShareButton
                 url={process.env.NEXT_PUBLIC_HOSTNAME + asPath}
@@ -148,7 +105,37 @@ export default function Slug({ data }) {
               </TwitterShareButton>
             </div>
           </div>
-        </main>
+
+          <h2 class="text-xl font-semibold mb-4">Posting Terkait</h2>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-white rounded-lg shadow-md p-4">
+              <Image
+                src={process.env.NEXT_PUBLIC_HOST + thumnailUrl}
+                alt={thumnailName}
+                height={1000}
+                width={1000}
+                class="mb-4"
+              />
+              <h3 class="text-lg font-semibold mb-2">
+                Judul Posting Terkait 1
+              </h3>
+              <p class="text-gray-600">Tanggal Posting Terkait 1</p>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-4">
+              <Image
+                src={process.env.NEXT_PUBLIC_HOST + thumnailUrl}
+                alt={thumnailName}
+                height={1000}
+                width={1000}
+                class="mb-4"
+              />
+              <h3 class="text-lg font-semibold mb-2">
+                Judul Posting Terkait 2
+              </h3>
+              <p class="text-gray-600">Tanggal Posting Terkait 2</p>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

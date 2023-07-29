@@ -5,8 +5,6 @@ import Bidang from "../../../components/pengurus/bidang";
 import { useEffect, useState } from "react";
 
 export default function Organisasi({ data }) {
-  console.log(data);
-
   const getUserId = data.map((item) => {
     return item.attributes.users_permissions_user.data.id;
   });
@@ -71,10 +69,10 @@ export default function Organisasi({ data }) {
                 <h2 className="text-xl font-bold leading-tight text-black sm:text-xl lg:text-3xl">
                   DEWAN PENASIHAT
                 </h2>
-                <p className="max-w-md mx-auto mt-4 text-base leading-relaxed text-gray-600">
+                {/* <p className="max-w-md mx-auto mt-4 text-base leading-relaxed text-gray-600">
                   Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                   amet sint. Velit officia consequat duis.
-                </p>
+                </p> */}
               </div>
               <div className="grid grid-cols-2 mt-8 text-center sm:mt-16 lg:mt-20 sm:grid-cols-4 gap-y-8 lg:grid-cols-9 gap-x-0">
                 {data.map((item, index) => {
@@ -112,10 +110,10 @@ export default function Organisasi({ data }) {
                 <h2 className="text-xl font-bold leading-tight text-black sm:text-xl lg:text-3xl">
                   BADAN PENGURUS HARIAN
                 </h2>
-                <p className="max-w-md mx-auto mt-4 text-base leading-relaxed text-gray-600">
+                {/* <p className="max-w-md mx-auto mt-4 text-base leading-relaxed text-gray-600">
                   Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                   amet sint. Velit officia consequat duis.
-                </p>
+                </p> */}
               </div>
               <div className="grid grid-cols-2 mt-8 text-center sm:mt-16 lg:mt-20 sm:grid-cols-4 gap-y-8 lg:grid-cols-9 gap-x-0">
                 {data.map((item, index) => {
@@ -158,10 +156,10 @@ export default function Organisasi({ data }) {
                 <h2 className="text-xl font-bold leading-tight text-black sm:text-xl lg:text-3xl">
                   BIDANG - BIDANG
                 </h2>
-                <p className="max-w-md mx-auto mt-4 text-base leading-relaxed text-gray-600">
+                {/* <p className="max-w-md mx-auto mt-4 text-base leading-relaxed text-gray-600">
                   Amet minim mollit non deserunt ullamco est sit aliqua dolor do
                   amet sint. Velit officia consequat duis.
-                </p>
+                </p> */}
               </div>
               <Bidang data={data} title={"Kerohanian"} />
               <Bidang data={data} title={"Kepemudaan dan Ekonomi Kreatif"} />
@@ -182,7 +180,7 @@ export default function Organisasi({ data }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const qs = require("qs");
   const query = qs.stringify(
     {

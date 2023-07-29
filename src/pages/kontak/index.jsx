@@ -121,17 +121,7 @@ export default function Kontak({ data }) {
   );
 }
 
-export async function getStaticProps(ctx) {
-  const cookie = nookies.get(ctx);
-
-  if (cookie.token) {
-    return {
-      redirect: {
-        destination: "/user/profile",
-      },
-    };
-  }
-
+export async function getServerSideProps() {
   const req = await fetch(
     process.env.NEXT_PUBLIC_HOST + "/api/kontak?populate=*",
     {

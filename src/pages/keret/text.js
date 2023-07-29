@@ -6,32 +6,58 @@ export default function Keret({ data }) {
   const [imgProfile, setImgProfile] = useState(
     "/uploads/Untitled_5f2cc72ef0.png"
   );
+  const getUserId = data.map((item) => {
+    return item.attributes.users_permissions_user.data;
+  });
+  const [userID, setUserID] = useState(getUserId);
 
-  const getImage = (data) => {
-    const req = fetch(
-      process.env.NEXT_PUBLIC_HOST + "/api/upload/files/" + data,
+  async function getProfileImage(idPic) {
+    if (idPic != null) {
+      const req = await fetch(
+        process.env.NEXT_PUBLIC_HOST + "/api/upload/files/" + idPic,
+        {
+          headers: {
+            Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+          },
+        }
+      );
+      const res = await req.json();
+      const ImgProfile = await res.url;
+      setImgProfile(ImgProfile);
+    }
+  }
+
+  const ID = () => {
+    return userID.map((item) => {
+      let filter = "filters[id][$in]=" + item.id + "&";
+      return filter;
+    });
+  };
+
+  const filterID = ID().join();
+  const allID = filterID.replace(",", "");
+  // console.log(allID);
+
+  async function userPhoto() {
+    let req = await fetch(
+      process.env.NEXT_PUBLIC_HOST + "/api/users?" + allID + "populate=*",
       {
         headers: {
-          Authorization: "Bearer " + process.env.NEXT_PUBLIC_TOKEN,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TOKEN}`,
         },
       }
     );
-    const res = req.then((response) => response.json().then((dd) => dd.url));
-    return imgProfile;
-  };
 
-  const RenderImage = ({ data }) => {
-    const url = getImage(data);
-    return (
-      <Image
-        className="object-cover mx-auto rounded-lg w-44 h-44 lg:rounded-full lg:h-auto"
-        src={process.env.NEXT_PUBLIC_HOST + url}
-        width={100}
-        height={100}
-        alt=""
-      />
-    );
-  };
+    let data = await req.json();
+
+    let id_pic = await data[1].photo_profile.id_image;
+
+    getProfileImage(id_pic);
+  }
+
+  useEffect(() => {
+    userPhoto();
+  });
 
   return (
     <>
@@ -52,20 +78,17 @@ export default function Keret({ data }) {
 
           <div className="grid grid-cols-2 mt-8 text-center sm:mt-16 lg:mt-20 sm:grid-cols-4 gap-y-8 lg:grid-cols-9 gap-x-0">
             {data.map((item, index) => {
-              const data =
-                item.attributes.photo_profile.data.attributes.id_image;
               return (
                 <>
                   <div key={index}>
-                    <RenderImage data={data} />
-                    {/* <Image
+                    <Image
                       className="object-cover mx-auto rounded-lg w-44 h-44 lg:rounded-full lg:h-auto"
                       src={process.env.NEXT_PUBLIC_HOST + imgProfile}
                       width={100}
                       height={100}
                       alt=""
-                    /> */}
-                    <p className="mt-8 text-lg font-semibold leading-tight text-black uppercase">
+                    />
+                    <p className="mt-8 text-lg font-semibold leading-tight text-black">
                       {item.attributes.nama}
                     </p>
                     <p className="mt-1 text-base leading-tight text-gray-600">
@@ -92,7 +115,7 @@ export async function getServerSideProps() {
           $eq: "Ketua Keret",
         },
       },
-      populate: "photo_profile",
+      populate: "*",
     },
 
     {

@@ -52,7 +52,6 @@ export default function Bidang({ data, title }) {
       </div>
       <div className="grid grid-cols-2 mt-8 text-center sm:mt-16 lg:mt-20 sm:grid-cols-4 gap-y-8 lg:grid-cols-9 gap-x-0">
         {data.map((item, index) => {
-          console.log(item);
           if (title == item.attributes.jabatan_kerukunan) {
             return (
               <>

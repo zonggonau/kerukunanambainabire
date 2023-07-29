@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
 
-const ProfilePDF = dynamic(() => import("../../../../components/pdf/pdf"), {
+const ProfilePDF = dynamic(() => import("../../../../../components/pdf/pdf"), {
   ssr: false,
 });
 

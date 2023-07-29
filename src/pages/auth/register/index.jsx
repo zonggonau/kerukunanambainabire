@@ -12,6 +12,8 @@ export default function Register() {
     setRegister((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
 
+  console.log(register);
+
   const registerNewUser = () => {
     const HOST = process.env.NEXT_PUBLIC_HOST;
     axios
@@ -41,6 +43,7 @@ export default function Register() {
       })
       .catch((error) => {
         // Handle error.
+        setSuccess(false);
         console.log("An error occurred:", error.response);
       });
   };
@@ -64,20 +67,32 @@ export default function Register() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create and account
               </h1>
+              {/* {!success ? (
+                ""
+              ) : (
+                <div
+                  className="p-4 mb-4 text-sm text-white rounded-lg bg-red-400 dark:bg-gray-800 dark:text-red-400"
+                  role="alert"
+                >
+                  <span className="font-medium">
+                    Username/Email Sudah Digunakan !
+                  </span>
+                </div>
+              )} */}
               <div className="space-y-4 md:space-y-6">
                 <div>
                   <label
-                    for="username"
+                    for="NIK USER"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Username
+                    NIK KTP ANGGOTA
                   </label>
                   <input
                     onChange={handleChange}
-                    type="username"
+                    type="number"
                     name="username"
                     id="username"
-                    placeholder="Nama Panggilan ?"
+                    placeholder="Masukan Nomor KTP ?"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                   />

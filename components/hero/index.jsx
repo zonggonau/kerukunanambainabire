@@ -14,12 +14,6 @@ export default function Hero({ hero }) {
 
         <div className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8">
           <div className="text-center">
-            <h1 className="text-3xl font-extrabold sm:text-5xl">
-              <strong className="block font-extrabold text-rose-700">
-                {hero.Title}
-              </strong>
-            </h1>
-
             <div className="mt-8 flex flex-wrap gap-4 text-center py-12 justify-center">
               <Image
                 className="relative xl:max-w-lg xl:mx-auto 2xl:origin-bottom 2xl:scale-110 h-48 w-48"
@@ -29,6 +23,11 @@ export default function Hero({ hero }) {
                 alt=""
               />
             </div>
+            <h1 className="text-3xl font-extrabold sm:text-5xl">
+              <strong className="block font-extrabold text-rose-700">
+                {hero.Title}
+              </strong>
+            </h1>
             <div className="flex flex-wrap gap-4 text-center py-10 justify-center text-xl">
               {parse(hero.desc)}
             </div>

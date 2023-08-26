@@ -22,24 +22,24 @@ export default function Galeri({ data }) {
               </p>
             </div>
 
-            <div classNameName="grid grid-cols-2 md:grid-cols-3 gap-4 mt-12 space-x-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-12 space-x-5">
               {data.map((item, index) => {
                 const urlImg = item.attributes.kategori.data[0].attributes.url;
                 return (
                   <div
                     key={index}
-                    classNameName="px-2 py-1 border-gray-400 shadow-lg"
+                    className="px-2 py-1 border-gray-400 shadow-lg"
                   >
                     <Link href={`/galeri/${item.attributes.slug}`}>
                       <Image
-                        classNameName="max-w-full rounded-lg h-56 "
+                        className="max-w-full rounded-lg h-56 "
                         src={process.env.NEXT_PUBLIC_HOST + urlImg}
                         width={500}
                         height={500}
                         alt=""
                       />
                       <div>
-                        <p classNameName="text-sm text-gray-500 pt-2 pb-2 italic font-bold">
+                        <p className="text-sm text-gray-500 pt-2 pb-2 italic font-bold">
                           {item.attributes.nama_album}
                         </p>
                       </div>

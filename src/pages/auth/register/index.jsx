@@ -2,17 +2,24 @@ import Link from "next/link";
 import { useRecoilState } from "recoil";
 import { registerState, successState } from "../../../../store";
 import axios from "axios";
+import Image from "next/dist/client/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Register() {
   const router = useRouter();
   const [register, setRegister] = useRecoilState(registerState);
   const [success, setSuccess] = useRecoilState(successState);
+  const [empty, setEmpty] = useState(false);
+  const [failed, setFailed] = useState(false);
   const handleChange = (e) => {
     setRegister((old) => ({ ...old, [e.target.name]: e.target.value }));
   };
 
-  console.log(register);
+  useEffect(() => {
+    setTimeout(() => setEmpty(false), 5000);
+    setTimeout(() => setFailed(false), 5000);
+  }, [empty, failed]);
 
   const registerNewUser = () => {
     const HOST = process.env.NEXT_PUBLIC_HOST;
@@ -42,9 +49,17 @@ export default function Register() {
         }
       })
       .catch((error) => {
+        if (
+          register.username === "" ||
+          register.email === "" ||
+          register.password === ""
+        ) {
+          setEmpty(true);
+        } else {
+          setFailed(true);
+          console.log("An error occurred:", error.response);
+        }
         // Handle error.
-        setSuccess(false);
-        console.log("An error occurred:", error.response);
       });
   };
 
@@ -56,29 +71,41 @@ export default function Register() {
             href="/"
             className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
           >
-            <img
+            <Image
               className="w-32 h-32 mr-2"
-              src="http://kerukunanambainabire.com:1337/uploads/ikkan_1_bb2ae4ef37.png"
+              src={`${process.env.NEXT_PUBLIC_HOST}/uploads/ikkan_1_bb2ae4ef37.png`}
+              width={250}
+              height={250}
               alt="logo"
             />
           </Link>
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Create and account
+                Pendaftaran Akun
               </h1>
-              {/* {!success ? (
+              {empty == false ? (
                 ""
               ) : (
                 <div
-                  className="p-4 mb-4 text-sm text-white rounded-lg bg-red-400 dark:bg-gray-800 dark:text-red-400"
+                  className="p-4 mb-4 text-sm text-white rounded-lg bg-orange-400 dark:bg-gray-800 dark:text-red-400"
+                  role="alert"
+                >
+                  <span className="font-medium">Field haru lengkap !</span>
+                </div>
+              )}
+              {failed == false ? (
+                ""
+              ) : (
+                <div
+                  className="p-4 mb-4 text-sm text-white rounded-lg bg-red-500 dark:bg-gray-800 dark:text-red-400"
                   role="alert"
                 >
                   <span className="font-medium">
-                    Username/Email Sudah Digunakan !
+                    Username atau Email Telah digunakan !
                   </span>
                 </div>
-              )} */}
+              )}
               <div className="space-y-4 md:space-y-6">
                 <div>
                   <label
@@ -92,7 +119,7 @@ export default function Register() {
                     type="text"
                     name="username"
                     id="username"
-                    placeholder="Masukan username ?"
+                    placeholder="Masukan username/nama panggilan?"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     required
                   />
@@ -111,7 +138,7 @@ export default function Register() {
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Masukan email aktive"
+                    placeholder="Masukan email aktif"
                     required
                   />
                 </div>

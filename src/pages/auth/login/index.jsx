@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import nookies from "nookies";
 import { useRecoilState, useRecoilValue } from "recoil";
+import Image from "next/image";
 import { successState } from "../../../../store";
 
 export default function LoginPage(token) {
@@ -62,9 +63,11 @@ export default function LoginPage(token) {
           href="/"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
-          <img
+          <Image
             className="w-32 h-32 mr-2"
-            src="http://kerukunanambainabire.com:1337/uploads/ikkan_1_bb2ae4ef37.png"
+            src={`${process.env.NEXT_PUBLIC_HOST}/uploads/ikkan_1_bb2ae4ef37.png`}
+            width={250}
+            height={250}
             alt="logo"
           />
         </Link>

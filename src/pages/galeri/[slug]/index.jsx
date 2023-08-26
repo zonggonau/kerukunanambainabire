@@ -22,13 +22,13 @@ export default function GaleriDetails({ data: dt }) {
               </p>
             </div>
 
-            <div classNameName="grid grid-cols-2 md:grid-cols-3 gap-4 mt-12 space-x-5">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-12 space-x-5">
               {data.map((item, index) => {
                 const urlImg = item.attributes.url;
                 return (
-                  <div key={index} classNameName="shadow-lg">
+                  <div key={index} className="shadow-lg">
                     <Image
-                      classNameName="max-w-full rounded-lg h-auto"
+                      className="max-w-full rounded-lg h-auto"
                       src={process.env.NEXT_PUBLIC_HOST + urlImg}
                       width={500}
                       height={500}

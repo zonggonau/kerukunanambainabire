@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import nookies from "nookies";
 import Cookies from "js-cookie";
@@ -21,8 +21,32 @@ export default function Dashbord({ user, data }) {
     router.replace("/");
   }
 
-  console.log(getSumAnggota);
+  const itemPria = [];
+  const itemWanita = [];
 
+  const sumPria = data.map((item, index) => {
+    if (item.anggota !== null) {
+      if (item.anggota.jenis_kelamin === "Pria") {
+        // itemPria[index] = item;
+        itemPria[index - 1] = item;
+      }
+    }
+  });
+
+  const sumWanita = data.map((item, index) => {
+    if (item.anggota !== null) {
+      if (item.anggota.jenis_kelamin === "Wanita") {
+        itemWanita[index - 1] = [item];
+      }
+    }
+  });
+
+  useEffect(() => {
+    sumPria;
+    sumWanita;
+  }, [itemPria, itemWanita]);
+
+  console.log(itemWanita);
   return (
     <>
       <div className="flex flex-col flex-1 w-full">
@@ -179,7 +203,7 @@ export default function Dashbord({ user, data }) {
                     Anggota Kerukunan
                   </p>
                   <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    6389
+                    {data.length}
                   </p>
                 </div>
               </div>
@@ -199,10 +223,10 @@ export default function Dashbord({ user, data }) {
                 </div>
                 <div>
                   <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Laki-Laki
+                    Laki - Laki
                   </p>
                   <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    $ 46,760.89
+                    {itemPria.length}
                   </p>
                 </div>
               </div>
@@ -222,7 +246,7 @@ export default function Dashbord({ user, data }) {
                     Perempuan
                   </p>
                   <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-                    376
+                    {itemWanita.length}
                   </p>
                 </div>
               </div>
@@ -266,8 +290,8 @@ export default function Dashbord({ user, data }) {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    {data.map((item, index) => {
-                      console.log(item);
+                    {/* {data.map((item, index) => {
+                      // console.log(item);
                       return (
                         // <></>
                         <tr
@@ -332,14 +356,9 @@ export default function Dashbord({ user, data }) {
                               ? "required"
                               : item.anggota.phone}
                           </td>
-                          {/* <td className="px-4 py-3 text-xs">
-                            <span className="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
-                              {item.attributes.pekerjaan_sekarang}
-                            </span>
-                          </td> */}
                         </tr>
                       );
-                    })}
+                    })} */}
                   </tbody>
                 </table>
               </div>
@@ -467,15 +486,19 @@ export async function getServerSideProps(ctx) {
     };
   }
 
+  const fil_anggota = "";
+
   const qs = require("qs");
   const query = qs.stringify(
     {
       // filters: {
-      //   jabatan_kerukunan: {
-      //     $eq: "Ketua Keret",
+      //   anggota: {
+      //     jenis_kelamin: {
+      //       $eq: fil_anggota,
+      //     },
       //   },
       // },
-      populate: "*",
+      populate: "anggota",
     },
 
     {
@@ -492,7 +515,7 @@ export async function getServerSideProps(ctx) {
     }
   );
   const data = await res.json();
-  console.log(data);
+  // console.log(data);
 
   return {
     props: {
